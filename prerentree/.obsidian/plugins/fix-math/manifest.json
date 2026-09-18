@@ -1,0 +1,10 @@
+{
+  "id": "fix-math",
+  "name": "Fix Math",
+  "version": "1.0.34",
+  "minAppVersion": "1.5.0",
+  "description": "Convert LaTeX equations from ChatGPT and AI assistants: block equations to display math, inline to inline math.",
+  "author": "Vladislav Sorokin",
+  "authorUrl": "https://github.com/loglux",
+  "isDesktopOnly": false
+}

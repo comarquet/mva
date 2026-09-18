@@ -441,6 +441,46 @@ avec $\omega_n\in[\varepsilon_1,2-\varepsilon_2]$, où $\varepsilon_1,\varepsilo
 > [!example] Image à garder en tête
 > Imagine deux ou trois zones autorisées qui se chevauchent. Si le point courant viole la première, on le ramène au point le plus proche de cette zone ; puis on fait de même pour la seconde, etc. Une projection peut faire ressortir légèrement d'une contrainte corrigée auparavant, mais les corrections cycliques convergent vers un point commun lorsque l'intersection n'est pas vide (en dimension finie).
 
+> [!example] Exemple calculé dans le plan : deux droites
+> Posons
+>
+> $$C_1=\{(u,0):u\in\mathbb R\},\qquad C_2=\{(u,u):u\in\mathbb R\}.$$
+>
+> $C_1$ est l'axe horizontal, $C_2$ est la diagonale $y=x$, et leur unique point commun est $(0,0)$. Partons de $x_0=(2,3)$ et projetons alternativement sur $C_1$, puis sur $C_2$.
+>
+> - La projection sur $C_1$ annule la seconde coordonnée : $P_{C_1}(a,b)=(a,0)$. Ainsi, $x_1=(2,0)$.
+> - La projection sur $C_2$ remplace les deux coordonnées par leur moyenne : $P_{C_2}(a,b)=\bigl(\tfrac{a+b}{2},\tfrac{a+b}{2}\bigr)$. Ainsi, $x_2=(1,1)$.
+>
+> Les itérations sont donc
+>
+> $$\begin{aligned}
+> (2,3)&\to(2,0)\to(1,1)\to(1,0)\\
+> &\to\left(\tfrac12,\tfrac12\right)\to\left(\tfrac12,0\right)
+> \to\left(\tfrac14,\tfrac14\right)\to\cdots
+> \end{aligned}$$
+>
+> Chaque projection satisfait exactement une droite, mais peut faire quitter l'autre. Les corrections alternées se rapprochent néanmoins de $(0,0)$, qui satisfait les deux contraintes. Avec une sous-relaxation, par exemple $\omega_0=\tfrac12$, le premier pas s'arrête à mi-chemin de la projection :
+>
+> $$x_1=(2,3)+\tfrac12\bigl((2,0)-(2,3)\bigr)=(2,1.5).$$
+>
+> La correction est alors plus prudente, souvent plus lente.
+
+> [!example] Visualiser la relaxation sur une seule contrainte
+> Prenons seulement l'axe horizontal $C=\{(u,0):u\in\mathbb R\}$ et partons de $x_0=(2,4)$. La projection exacte est toujours $P_C(2,v)=(2,0)$.
+>
+> Avec une **sous-relaxation** constante $\omega_n=\tfrac12$, on ne parcourt que la moitié du chemin vers la projection :
+>
+> $$\begin{aligned}
+> x_0&=(2,4),\\
+> x_1&=(2,4)+\tfrac12\bigl((2,0)-(2,4)\bigr)=(2,2),\\
+> x_2&=(2,2)+\tfrac12\bigl((2,0)-(2,2)\bigr)=(2,1),\\
+> x_3&=(2,0.5),\quad\ldots
+> \end{aligned}$$
+>
+> La distance à l'axe est divisée par deux à chaque étape : $(2,4)\to(2,2)\to(2,1)\to(2,0.5)\to\cdots\to(2,0)$. Avec $\omega_n=1$, on arriverait à $(2,0)$ en une seule itération.
+>
+> Avec une **sur-relaxation**, par exemple $\omega_n=\tfrac32$, on dépasse l'axe tout en convergeant : $(2,4)\to(2,-2)\to(2,1)\to(2,-0.5)\to\cdots\to(2,0)$. L'amplitude des oscillations diminue tant que $0<\omega_n<2$ ; au seuil $2$, elle ne diminue plus.
+
 Cette idée est très générale : dès que les projections $P_{C_i}$ se calculent facilement, les contraintes peuvent être traitées séparément. La projection sur une boule et un exemple complet de POCS figurent dans la note [[prerentree/optimisation-convexe/notes/exercices-corriges|d'exercices]].
 
 ## 9. Contraintes générales : multiplicateurs et dualité (diapositives 7 à 14)
@@ -454,6 +494,27 @@ g_i(x)=0\ (i=1,\ldots,m),\qquad h_j(x)\leq0\ (j=1,\ldots,q).$$
 
 Un point est **faisable** lorsqu'il est dans $\operatorname{dom}f$ et respecte toutes ces contraintes. Les égalités sont des contraintes rigides ; les inégalités possèdent une marge. Par exemple, $h(x)=x-1\leq0$ autorise tout $x\leq1$, et elle est **active** au bord $x=1$.
 
+> [!example] Exemple calculé : égalité, inégalités et contrainte active
+> Dans $H=\mathbb R^2$, cherchons à minimiser
+>
+> $$f(u,v)=u^2+(v-1)^2$$
+>
+> sous les contraintes
+>
+> $$g(u,v)=u+v-1=0,\qquad h_1(u,v)=-u\leq0,\qquad h_2(u,v)=v-0.6\leq0.$$
+>
+> L'égalité impose $v=1-u$. Les inégalités disent respectivement $u\geq0$ et $v\leq0.6$ ; en remplaçant $v$ par $1-u$, la seconde donne $1-u\leq0.6$, donc $u\geq0.4$. L'ensemble faisable se réduit ainsi à $u\geq0.4$ avec $v=1-u$.
+>
+> Sur cette droite, le coût vaut
+>
+> $$f(u,1-u)=u^2+\bigl((1-u)-1\bigr)^2=2u^2.$$
+>
+> Comme $u\geq0.4>0$, la dérivée $4u$ est positive : $2u^2$ augmente avec $u$. Son minimum parmi les valeurs autorisées est donc atteint à la plus petite, $u^*=0.4$. Ainsi $v^*=1-u^*=0.6$ et
+>
+> $$\boxed{(u^*,v^*)=(0.4,0.6).}$$
+>
+> Au point optimal, $h_1(u^*,v^*)=-0.4<0$ est **inactive** : on n'est pas au bord $u=0$. En revanche, $h_2(u^*,v^*)=0$ est **active** : l'optimum est bloqué sur la frontière $v=0.6$.
+
 ### Le Lagrangien : faire entrer les contraintes dans le coût
 
 On introduit un multiplicateur libre $\mu_i\in\mathbb R$ pour chaque égalité, et un multiplicateur positif $\omega_j\geq0$ pour chaque inégalité :
@@ -464,6 +525,14 @@ Pourquoi $\omega_j$ doit-il être positif ? Si $h_j(x)>0$, la contrainte est vio
 
 > [!example] Une contrainte active crée un multiplicateur
 > Pour minimiser $(x-3)^2$ sous $x\leq1$, prends $h(x)=x-1$ et $L(x,\omega)=(x-3)^2+\omega(x-1)$, avec $\omega\geq0$. La stationnarité donne $2(x-3)+\omega=0$. Si la contrainte était inactive, $\omega=0$ donnerait $x=3$, impossible. Elle est donc active : $x^*=1$, puis $\omega^*=4$. Le multiplicateur mesure ici la « force » avec laquelle la frontière empêche le minimum non contraint d'être atteint.
+>
+> **Comment trouve-t-on $x^*=1$ ?** La parabole $f(x)=(x-3)^2$ a son minimum sans contrainte en $x=3$, mais ce point viole $x\leq1$. Sur toutes les valeurs autorisées, se déplacer vers la droite rapproche de $3$ et diminue le coût : le meilleur choix est donc la plus grande valeur autorisée, $x^*=1$. Par exemple, $f(0)=9$ et $f(1)=4$.
+>
+> **Que signifie $-4+4=0$ ?** À $x=1$, la dérivée du coût seul vaut $f'(1)=2(1-3)=-4$. Le signe négatif dit qu'augmenter un peu $x$ ferait encore baisser le coût ; mais ce déplacement est interdit par la contrainte. Dans la stationnarité du Lagrangien,
+>
+> $$2(x^*-3)+\omega^*=0,$$
+>
+> le terme de contrainte doit donc apporter $+4$, d'où $\omega^*=4$. Ce n'est pas une force physique : c'est une manière algébrique de dire que le « mur » $x=1$ compense exactement la tendance de l'objectif à aller vers $3$.
 
 ### Point selle et dualité
 
@@ -471,7 +540,9 @@ Un triplet $(x^*,\mu^*,\omega^*)$ est un **point selle** du Lagrangien lorsque
 
 $$L(x^*,\mu,\omega)\leq L(x^*,\mu^*,\omega^*)\leq L(x,\mu^*,\omega^*)$$
 
-pour tout $x$, tout $\mu$ et tout $\omega\geq0$. On minimise donc par rapport à $x$ et l'on maximise par rapport aux multiplicateurs. Cette opposition est la dualité : le primal cherche une solution faisable bon marché, le dual cherche les pénalités qui rendent toute autre solution moins attractive.
+pour tout $x$, tout $\mu$ et tout $\omega\geq0$. On minimise donc par rapport à $x$ et l'on maximise par rapport aux multiplicateurs.
+
+Le **problème primal** est le problème de départ : choisir directement un $x$ faisable qui minimise $f(x)$. Le **problème dual** cherche plutôt les multiplicateurs $(\mu,\omega)$ qui produisent la meilleure borne inférieure possible du coût optimal. Les deux problèmes parlent donc du même optimum, mais depuis deux points de vue : le primal construit une solution ; le dual construit un certificat indiquant qu'aucune solution faisable ne peut faire mieux.
 
 On peut la résumer par deux fonctions :
 
@@ -482,7 +553,86 @@ Un point selle fournit un minimiseur primal. Il donne aussi la **complémentarit
 
 $$\boxed{\omega_j^*h_j(x^*)=0\quad\text{pour tout }j.}$$
 
-Cette formule ne dit pas que tous les multiplicateurs sont nuls : elle dit qu'une inégalité est soit inactive ($h_j(x^*)<0$, donc $\omega_j^*=0$), soit active ($h_j(x^*)=0$, auquel cas son multiplicateur peut être positif).
+Cette formule ne dit pas q²ue tous les multiplicateurs sont nuls : elle dit qu'une inégalité est soit inactive ($h_j(x^*)<0$, donc $\omega_j^*=0$), soit active ($h_j(x^*)=0$, auquel cas son multiplicateur peut être positif).
+
+> [!example] Point selle, primal et dual sur une droite
+> Reprenons le problème primal
+>
+> $$\min_x (x-3)^2\qquad\text{sous }x\leq1.$$
+>
+> Sans contrainte, le meilleur point serait $3$, mais il est interdit. Le meilleur point faisable est donc $x^*=1$. Avec $h(x)=x-1$, le Lagrangien est
+>
+> $$L(x,\omega)=(x-3)^2+\omega(x-1),\qquad\omega\geq0.$$
+>
+> Pour $\omega^*=4$,
+>
+> $$L(x,4)=(x-3)^2+4(x-1)=(x-1)^2+4.$$
+>
+> Cette quantité est minimale en $x=1$. Inversement, si l'on fixe $x=1$, alors $L(1,\omega)=4$ pour tout $\omega\geq0$, car la contrainte est exactement saturée : $\omega(1-1)=0$. Ainsi
+>
+> $$L(1,\omega)\leq L(1,4)\leq L(x,4).$$
+>
+> C'est le point selle : $x^*=1$ minimise le Lagrangien lorsque le multiplicateur est fixé à $4$, et aucun choix de multiplicateur ne peut augmenter $L$ lorsque $x=1$.
+>
+> Pour comprendre $p(x)=\sup_{\omega\geq0}L(x,\omega)$, fixe d'abord $x$, puis laisse $\omega$ choisir la valeur qui rend $L(x,\omega)$ la plus grande possible.
+>
+> - **Point autorisé :** avec $x=0$, on a
+>
+>   $$L(0,\omega)=9+\omega(0-1)=9-\omega.$$
+>
+>   Les valeurs sont $9$ pour $\omega=0$, $7$ pour $\omega=2$, puis $-91$ pour $\omega=100$. La plus grande est donc $9$, obtenue avec $\omega=0$. Ainsi $p(0)=9=(0-3)^2$. Plus généralement, si $x\leq1$, le terme $\omega(x-1)$ est négatif ou nul : le plus grand choix est toujours $\omega=0$, et $p(x)=(x-3)^2$.
+>
+> - **Point interdit :** avec $x=2$, on a
+>
+>   $$L(2,\omega)=1+\omega(2-1)=1+\omega.$$
+>
+>   Les valeurs sont $1$ pour $\omega=0$, $11$ pour $\omega=10$ et $1001$ pour $\omega=1000$. On peut donc rendre $L(2,\omega)$ aussi grand que l'on veut : $p(2)=+\infty$. Plus généralement, pour tout $x>1$, le terme $\omega(x-1)$ est positif et tend vers $+\infty$ lorsque $\omega$ grandit.
+>
+> Donc $p$ transforme exactement la contrainte $x\leq1$ en une règle très simple : « si $x$ est interdit, son coût est infini ».
+>
+> $$p(x)=
+> \begin{cases}
+> (x-3)^2,&x\leq1,\\
+> +\infty,&x>1.
+> \end{cases}$$
+>
+> Minimiser $p$ revient donc exactement à chercher le plus petit coût parmi les seuls $x\leq1$. Pour la fonction duale, on fixe au contraire $\omega$ puis on minimise en $x$ :
+>
+> $$d(\omega)=\inf_xL(x,\omega).$$
+>
+> Ici, fixer $\omega$ transforme le Lagrangien en une simple parabole en $x$ :
+>
+> $$L(x,\omega)=x^2+(\omega-6)x+9-\omega.$$
+>
+> Son point le plus bas est atteint en
+>
+> $$x_\omega=3-\frac{\omega}{2},$$
+>
+> et sa valeur minimale est
+>
+> $$d(\omega)=2\omega-\frac{\omega^2}{4}.$$
+>
+> Quelques valeurs permettent de voir le mécanisme :
+>
+> - avec $\omega=0$, on obtient $d(0)=0$ et le minimum est en $x_0=3$, qui est interdit ;
+> - avec $\omega=2$, on obtient $d(2)=3$ et le minimum est en $x_2=2$, encore interdit ;
+> - avec $\omega=4$, on obtient $d(4)=4$ et le minimum est en $x_4=1$, qui est exactement la solution faisable ;
+> - avec $\omega=6$, on obtient $d(6)=3$ et le minimum est en $x_6=0$ : la pénalité est devenue trop forte, donc la borne se dégrade.
+>
+> Pourquoi est-ce toujours une borne inférieure du coût optimal primal ? Pour tout $x$ faisable, $x-1\leq0$. Puisque $\omega\geq0$,
+>
+> $$\omega(x-1)\leq0\qquad\Longrightarrow\qquad L(x,\omega)\leq (x-3)^2=f(x).$$
+>
+> De plus, $d(\omega)$ est le minimum de $L(\cdot,\omega)$ sur **tous** les $x$, donc
+>
+> $$d(\omega)\leq L(x,\omega)\leq f(x)\qquad\text{pour tout }x\leq1.$$
+>
+> En particulier, $d(\omega)$ ne peut jamais dépasser le meilleur coût faisable, qui vaut ici $4$. Le problème dual consiste à choisir $\omega\geq0$ pour rendre cette borne aussi haute que possible :
+>
+> $$\max_{\omega\geq0}d(\omega)
+> =\max_{\omega\geq0}\left(2\omega-\frac{\omega^2}{4}\right).$$
+>
+> Cette parabole atteint son maximum en $\omega^*=4$, avec $d(4)=4$. Le dual atteint donc exactement la valeur du primal : le multiplicateur $4$ est une pénalité juste assez forte pour rendre $x=1$ optimal.
 
 ### Cas convexe : quand les conditions deviennent suffisantes
 
@@ -491,6 +641,17 @@ Supposons $f$ convexe, les $g_i$ affines et les $h_j$ convexes. La **condition d
 $$g_i(\bar x)=0,\qquad h_j(\bar x)<0,$$
 
 avec $\bar x$ dans l'intérieur du domaine de $f$. Intuitivement, il doit exister une petite marge de manœuvre, pas seulement un ensemble faisable réduit à une frontière fragile.
+
+> [!example] Slater = « il existe de la place », pas « la solution est à l'intérieur »
+> Considère les contraintes
+>
+> $$x+y=1,\qquad x\geq0,\qquad y\geq0.$$
+>
+> L'égalité force les points faisables à rester sur la droite $x+y=1$. Elle doit donc être satisfaite exactement. En revanche, le point $\bar x=(\tfrac12,\tfrac12)$ vérifie strictement les deux inégalités : $x>0$ et $y>0$. Slater est satisfaite, car il existe de la marge **le long de la droite imposée par l'égalité**.
+>
+> À l'inverse, les contraintes $x\leq0$ et $x\geq0$ n'autorisent que $x=0$. Ce point touche les deux frontières : aucun $x$ ne peut rendre les deux inégalités strictes simultanément. Slater échoue. Cela n'implique pas qu'il n'y ait pas de solution ; cela signifie seulement que le théorème de dualité/KKT ne fournit plus automatiquement le même certificat.
+>
+> Enfin, Slater ne demande pas que le minimiseur ait une marge. Dans $\min (x-3)^2$ sous $x\leq1$, le point $0$ vérifie Slater, alors que le minimiseur est $x^*=1$, sur la frontière.
 
 Sous cette condition, $x^*$ minimise le problème contraint **si et seulement si** il existe des multiplicateurs pour lesquels $(x^*,\mu^*,\omega^*)$ est un point selle. En pratique, on minimise alors $L(\cdot,\mu^*,\omega^*)$ par rapport à $x$, puis on combine la stationnarité avec la complémentarité pour déterminer les multiplicateurs.
 
@@ -507,10 +668,66 @@ $$
 \end{aligned}
 $$
 
-La qualification de Mangasarian-Fromovitz du cours évite les contraintes dégénérées : les gradients des égalités sont indépendants et il existe une direction tangentielle aux égalités qui diminue strictement toutes les inégalités actives. Dans le cas convexe avec Slater, KKT n'est plus seulement nécessaire : c'est un certificat d'optimalité globale.
+### Pourquoi la qualification MFCQ est demandée ?
+
+Le théorème KKT affirme qu'un minimum local possède des multiplicateurs. Mais cette conclusion peut devenir fragile lorsque les contraintes sont redondantes ou se touchent sans laisser de marge. La qualification de **Mangasarian-Fromovitz** (MFCQ) exclut ces situations dégénérées.
+
+Elle demande deux choses au point faisable $x^*$ :
+
+1. Les gradients des égalités $\bigl(\nabla g_i(x^*)\bigr)_i$ sont linéairement indépendants. Chaque égalité apporte donc une vraie information. Par exemple, $x_1=0$ et $2x_1=0$ sont deux écritures de la même contrainte : leurs gradients ne sont pas indépendants.
+
+   S'il n'y a qu'une seule égalité $g(x)=0$, cette condition devient simplement $\nabla g(x^*)\neq0$. En effet, une famille contenant un seul vecteur est linéairement indépendante si et seulement si ce vecteur n'est pas nul : si $a\nabla g(x^*)=0$ et $\nabla g(x^*)\neq0$, alors nécessairement $a=0$. À l'inverse, si le gradient est nul, prendre $a=1$ donne déjà une relation non triviale.
+
+2. Il existe une direction $d$ qui reste tangentielle aux égalités et rentre strictement à l'intérieur de toutes les inégalités actives :
+
+   $$\langle\nabla g_i(x^*),d\rangle=0\quad\forall i,\qquad
+   \langle\nabla h_j(x^*),d\rangle<0\quad\text{pour tout }j\text{ tel que }h_j(x^*)=0.$$
+
+La première égalité signifie qu'un petit déplacement dans la direction $d$ ne change pas les égalités au premier ordre. La seconde inégalité signifie qu'il fait diminuer chaque contrainte qui est exactement au bord : si $h_j(x^*)=0$, alors $h_j(x^*+\varepsilon d)$ devient négatif pour un petit $\varepsilon>0$. Les inégalités déjà strictes n'ont pas besoin d'être vérifiées ici : elles possèdent déjà une marge.
+
+> [!example] Une situation saine, puis une situation dégénérée
+> Avec $x_1=0$ et $x_2\leq0$ au point $(0,0)$, la direction $d=(0,-1)$ convient : elle préserve l'égalité et fait entrer strictement dans $x_2<0$.
+>
+> À l'inverse, avec $x_2=0$ et $x_2\leq0$, toute direction qui préserve l'égalité a forcément $d_2=0$. Elle ne peut donc pas faire décroître strictement l'inégalité active. Celle-ci est redondante et MFCQ échoue.
+
+MFCQ ne dit pas qu'un problème sans cette propriété n'a pas de solution. Elle garantit seulement que le théorème fournit bien des multiplicateurs KKT à un minimum local. Dans le cas convexe avec Slater, KKT n'est plus seulement nécessaire : c'est un certificat d'optimalité globale.
 
 > [!example] Sur une sphère
-> Maximiser $t^3-\tfrac12t^2$ où $t=x_N$ sous $\|x\|=1$ revient à minimiser $\tfrac12x_N^2-x_N^3$ avec l'égalité $\|x\|^2-1=0$. KKT montre que les candidats ont $x_i=0$ pour $i<N$ et $x_N\in\{-1,0,\tfrac13,1\}$. Comparer les valeurs donne le maximum $x^*=(0,\ldots,0,1)$. KKT produit les candidats ; il reste à comparer leurs valeurs lorsqu'il ne s'agit pas d'un problème convexe.
+> Écrivons $x=(x_1,\ldots,x_N)\in\mathbb R^N$. La notation $x_N$ désigne sa dernière coordonnée. On cherche à maximiser
+>
+> $$q(x)=x_N^3-\frac12x_N^2$$
+>
+> parmi les vecteurs situés sur la sphère unité, c'est-à-dire vérifiant $\|x\|=1$. L'objectif ne dépend que de la dernière coordonnée ; posons donc $t=x_N$. La contrainte implique $t\in[-1,1]$, mais les autres coordonnées restent importantes pour compléter la norme lorsque $|t|<1$.
+>
+> KKT est formulé pour une minimisation. On minimise donc l'opposé
+>
+> $$f(x)=-q(x)=\frac12x_N^2-x_N^3.$$
+>
+> C'est le même problème : rendre $q$ aussi grand que possible revient exactement à rendre $-q$ aussi petit que possible. La contrainte est réécrite sous la forme attendue par KKT,
+>
+> $$g(x)=\|x\|^2-1=0.$$
+>
+> Elle est équivalente à $\|x\|-1=0$, mais elle est plus commode : $\nabla g(x)=2x$ est défini partout. Sur la sphère, $x\neq0$, donc $\nabla g(x)\neq0$. Pour une seule égalité, c'est précisément la condition de régularité demandée : la sphère a un vrai vecteur normal, et KKT peut s'appliquer.
+>
+> Le Lagrangien est
+>
+> $$L(x,\mu)=\frac12x_N^2-x_N^3+\mu(\|x\|^2-1).$$
+>
+> Sa stationnarité donne
+>
+> $$2\mu x_i=0\quad(i<N),\qquad x_N-3x_N^2+2\mu x_N=0,$$
+>
+> auxquels il faut ajouter la faisabilité $\|x\|=1$. Si $\mu\neq0$, les premières équations imposent $x_i=0$ pour $i<N$, puis la sphère donne $x_N=\pm1$. Si $\mu=0$, la dernière équation donne $x_N=0$ ou $x_N=\tfrac13$ ; pour ces deux valeurs, les autres coordonnées peuvent compléter la norme (car $N\geq2$).
+>
+> Il reste à comparer les valeurs de l'objectif original :
+>
+> $$q(-1)=-\frac32,\qquad q(0)=0,\qquad q\left(\frac13\right)=-\frac1{54},\qquad q(1)=\frac12.$$
+>
+> La plus grande est $q(1)=\tfrac12$. Avec $\|x\|=1$ et $x_N=1$, toutes les autres coordonnées doivent être nulles :
+>
+> $$\boxed{x^*=(0,\ldots,0,1).}$$
+>
+> Dans cet exemple non convexe, KKT fournit des candidats nécessaires, mais ne dit pas lequel est optimal : la comparaison finale des valeurs est indispensable.
 
 ## 10. Calculer une solution : méthodes du premier ordre (diapositives 16 à 21)
 
@@ -529,6 +746,50 @@ Si $x$ doit rester dans un convexe $C$, on corrige le pas par projection :
 $$\boxed{x_{n+1}=x_n+\theta_n\bigl(P_C(x_n-\gamma_n\nabla f(x_n))-x_n\bigr),}$$
 
 où $\gamma_n$ est le pas de descente et $\theta_n\in]0,1]$ une relaxation. La projection garantit la faisabilité ; la relaxation évite éventuellement de faire toute la correction d'un coup.
+
+> [!example] Exemple pas à pas : un minimum bloqué par un intervalle
+> On minimise
+>
+> $$f(x)=(x-3)^2\qquad\text{sur}\qquad C=[0,1].$$
+>
+> Sans contrainte, le minimum est $3$, car $f(3)=0$. Mais $3$ n'appartient pas à $[0,1]$ : le meilleur point autorisé sera donc le bord droit, $1$. Partons de $x_0=0$.
+>
+> **1. Calculer la direction de descente.** En dimension $1$, le gradient est la dérivée :
+>
+> $$f'(x)=2(x-3),\qquad f'(0)=-6.$$
+>
+> Le signe négatif dit qu'aller vers la droite fait baisser $f$. Avec $\gamma_0=\tfrac14$, la descente de gradient *sans contrainte* proposerait
+>
+> $$x_0-\gamma_0f'(x_0)=0-\tfrac14(-6)=1.5.$$
+>
+> Le choix $\gamma_0=\tfrac14$ est ici pédagogique : il rend le calcul lisible. Il n'est pas complètement arbitraire dans un algorithme réel : il doit être suffisamment petit pour stabiliser la suite. Ici, le gradient est $2$-Lipschitzien, donc tout pas constant dans $]0,1[$ convient ; $\tfrac14$ est donc un choix sûr.
+>
+> **2. Projeter sur l'ensemble autorisé.** Le candidat $1.5$ est interdit. La projection cherche le point de $[0,1]$ le plus proche de $1.5$ :
+>
+> $$P_{[0,1]}(1.5)=\operatorname*{argmin}_{z\in[0,1]}|z-1.5|^2=1.$$
+>
+> Géométriquement, $1.5$ est à droite de tout l'intervalle, donc l'extrémité droite est le point autorisé le plus proche. Plus généralement,
+>
+> $$P_{[a,b]}(u)=
+> \begin{cases}
+> a,&u<a,\\
+> u,&a\leq u\leq b,\\
+> b,&u>b.
+> \end{cases}$$
+>
+> **3. Appliquer la relaxation.** La formule générale peut se lire comme « partir de $x_n$ et avancer d'une fraction $\theta_n$ vers le point projeté ». Ici, $x_0=0$, le point projeté est $1$ et $\theta_0=1$ :
+>
+> $$x_1=x_0+\theta_0(P_C(1.5)-x_0)=0+1(1-0)=1.$$
+>
+> Avec $\theta_0=\tfrac12$, on n'aurait parcouru que la moitié du trajet :
+>
+> $$x_1=0+\tfrac12(1-0)=0.5.$$
+>
+> Dans les deux cas, on reste dans $C$, car on prend un point entre deux points de l'intervalle. Enfin, au point optimal $x^*=1$, la dérivée vaut encore $f'(1)=-4$, et ce n'est pas un problème : aller vers la droite aiderait, mais est interdit. Pour tout $y\in[0,1]$, $y-1\leq0$, donc
+>
+> $$f'(1)(y-1)=(-4)(y-1)\geq0.$$
+>
+> Aucun déplacement **autorisé** ne diminue le coût : c'est bien le minimum contraint.
 
 Un point fixe de cette itération vérifie exactement
 
@@ -549,6 +810,61 @@ $$0<\inf_n\gamma_n\leq\sup_n\gamma_n<\frac2\rho,\qquad
 
 Le seuil $2/\rho$ formalise l'intuition « ne pas faire un pas trop grand dans une vallée courbée ». Si $f$ est fortement convexe, le minimiseur est unique et la convergence est **linéaire** : l'erreur est multipliée à chaque itération par un facteur $\zeta<1$. Sans convexité, ces garanties globales disparaissent ; avec un gradient Lipschitzien et un pas assez petit, on sait au moins contrôler la décroissance des valeurs, pas forcément atteindre un minimum global.
 
+> [!tip] Lire les bornes sur les pas
+> Les notations $\inf_n\gamma_n$ et $\sup_n\gamma_n$ désignent respectivement la plus grande borne inférieure et la plus petite borne supérieure de tous les pas $\gamma_n$. Pour appliquer le théorème, il faut pouvoir choisir deux constantes fixes telles que
+>
+> $$0<\gamma_{\min}\leq\gamma_n\leq\gamma_{\max}<\frac2\rho\qquad\text{pour tout }n.$$
+>
+> C'est exactement une autre manière d'écrire
+>
+> $$0<\inf_n\gamma_n\leq\sup_n\gamma_n<\frac2\rho.$$
+>
+> En clair, le pas de descente $\gamma_n$ ne doit jamais devenir presque nul (sinon l'algorithme peut pratiquement s'immobiliser), ni dépasser le seuil de stabilité $2/\rho$. Avec $\rho=2$, par exemple, la suite $0.2,0.7,0.2,0.7,\ldots$ convient : tous ses termes sont entre $0.2$ et $0.7<1$. En revanche, $\gamma_n=1/n$ ne satisfait pas l'hypothèse car ses pas se rapprochent de $0$.
+>
+> De la même façon,
+>
+> $$0<\theta_{\min}\leq\theta_n\leq1\qquad\text{pour tout }n$$
+>
+> équivaut à $0<\inf_n\theta_n\leq\sup_n\theta_n\leq1$. La relaxation $\theta_n$ indique quelle fraction de la correction projetée est appliquée : $\theta_n=1$ applique toute la correction, $\theta_n=\tfrac12$ la moitié. La borne inférieure positive évite que les corrections deviennent négligeables.
+
+> [!warning] Ce que garantit réellement la convexité
+> Sous **toutes** les hypothèses du théorème — $f$ convexe, $C$ convexe fermé non vide, gradient $\rho$-Lipschitzien, au moins un minimiseur existant et pas admissibles — le gradient projeté converge vers un minimiseur **global** sur $C$. La convexité est la raison essentielle : pour une fonction convexe, tout minimum local est déjà global.
+>
+> Sans convexité, l'algorithme peut encore décroître et, sous des conditions appropriées, converger vers un point stationnaire ; mais il peut s'agir d'un minimum local ou d'un point qui n'est pas un minimum. Atteindre le minimum global reste possible dans certains problèmes particuliers, mais n'est plus une garantie générale. La forte convexité ajoute l'unicité du minimum global et une vitesse de convergence linéaire.
+
+> [!example] Exemple très simple : pourquoi $\rho=1$ et d'où vient la mise à jour
+> Prends $C=\mathbb R$ et
+>
+> $$f(x)=\frac12x^2.$$
+>
+> Il n'y a pas de contrainte effective, donc la projection sur $C$ ne change rien. En dimension $1$, le gradient est simplement la dérivée :
+>
+> $$\nabla f(x)=f'(x)=x.$$
+>
+> Pour déterminer la constante de Lipschitz, on compare deux gradients :
+>
+> $$|\nabla f(x)-\nabla f(y)|=|x-y|=1\cdot|x-y|.$$
+>
+> La condition $\|\nabla f(x)-\nabla f(y)\|\leq\rho\|x-y\|$ est donc vraie avec $\rho=1$ ; c'est la plus petite constante possible. Autre raccourci en dimension $1$ : si $|f''(x)|\leq\rho$ partout, alors le gradient est $\rho$-Lipschitzien. Ici, $f''(x)=1$.
+>
+> La descente de gradient générale est
+>
+> $$x_{n+1}=x_n-\gamma\nabla f(x_n).$$
+>
+> Comme $\nabla f(x_n)=x_n$ dans cet exemple, on remplace simplement le gradient :
+>
+> $$x_{n+1}=x_n-\gamma x_n=(1-\gamma)x_n.$$
+>
+> Le seuil devient $2/\rho=2$. Si $x_0=8$ et $\gamma=\tfrac12$, alors
+>
+> $$8\longrightarrow4\longrightarrow2\longrightarrow1\longrightarrow\cdots.$$
+>
+> L'erreur par rapport au minimiseur $x^*=0$ est divisée par deux à chaque étape :
+>
+> $$|x_n-x^*|=\left(\frac12\right)^n|x_0-x^*|.$$
+>
+> C'est une convergence linéaire. À l'inverse, avec $\gamma=2$, la suite alterne $8,-8,8,\ldots$ ; avec $\gamma>2$, son amplitude augmente.
+
 ### Uzawa : descendre en $x$, monter en multiplicateurs
 
 Pour chercher un point selle $L(x,\omega)$ avec des multiplicateurs d'inégalité, Uzawa alterne :
@@ -560,15 +876,104 @@ $$\omega_{n+1}=\omega_n+\theta_n\left(P_{\mathbb R_+^q}\!\bigl(\omega_n+\gamma_n
 
 Le signe est ici positif parce que le dual se **maximise**. Les multiplicateurs des contraintes violées tendent ainsi à augmenter.
 
+> [!example] Exemple détaillé - Uzawa sous la contrainte $x\leq1$
+>
+> Considérons
+>
+> $$\min_{x\in\mathbb R}\frac{1}{2}(x-2)^2\qquad\text{sous la contrainte}\qquad x\leq1.$$
+>
+> Sans contrainte, le minimum est $x=2$, qui dépasse la limite. Posons
+>
+> $$h(x)=x-1\leq0,\qquad L(x,\omega)=\frac{1}{2}(x-2)^2+\omega(x-1),\qquad\omega\geq0.$$
+>
+> On peut lire $\omega$ comme le **prix de la violation** : si $x>1$, le terme $\omega(x-1)$ ajoute un coût.
+>
+> Pour voir son effet, développons et complétons le carré :
+>
+> $$
+> \begin{aligned}
+> L(x,\omega)
+> &=\frac{1}{2}x^2+(\omega-2)x+2-\omega\\
+> &=\frac{1}{2}\bigl(x-(2-\omega)\bigr)^2+\omega-\frac{\omega^2}{2}.
+> \end{aligned}
+> $$
+>
+> Le dernier terme ne dépend pas de $x$. Pour un prix $\omega$ fixé,
+>
+> $$\boxed{x(\omega)=2-\omega.}$$
+>
+> Si $\omega$ augmente de $0{,}1$, alors $x(\omega+0{,}1)=x(\omega)-0{,}1$ : le fond du bol se déplace vers la région faisable.
+>
+> À la solution, KKT donne
+>
+> $$x^*=2-\omega^*,\qquad\omega^*(x^*-1)=0.$$
+>
+> $\omega^*=0$ donnerait $x^*=2$, qui n'est pas faisable. La contrainte est donc active :
+>
+> $$\boxed{\omega^*=1,\qquad x^*=1.}$$
+>
+> Cette solution vient d'une résolution directe des conditions KKT, en forme fermée. En général, on ne dispose pas d'une telle formule explicite : c'est pourquoi on introduit maintenant l'**algorithme d'Uzawa**, une méthode itérative qui retrouve ce même point $(x^*,\omega^*)$ sans résoudre KKT directement, et dont on peut ensuite étudier la vitesse de convergence.
+>
+> **Une itération Uzawa.** Ici $\nabla_\omega L(x,\omega)=h(x)=x-1$. Avec $\theta_n=1$,
+>
+> $$\boxed{\omega_{n+1}=\max\bigl(0,\omega_n+\gamma_n(x_n-1)\bigr),\qquad x_n=2-\omega_n.}$$
+>
+> 1. Calculer $x_n$ à partir de $\omega_n$.
+> 2. Mesurer la violation $x_n-1$.
+> 3. Augmenter ou diminuer $\omega_n$, puis le projeter sur $[0,+\infty[$.
+>
+> Avec $\gamma_n=\tfrac{1}{2}$ et $\omega_0=0$ :
+>
+> $$
+> \begin{aligned}
+> \omega_0=0&\Rightarrow x_0=2 &&\Rightarrow \omega_1=0{,}5,\\
+> \omega_1=0{,}5&\Rightarrow x_1=1{,}5 &&\Rightarrow \omega_2=0{,}75,\\
+> \omega_2=0{,}75&\Rightarrow x_2=1{,}25 &&\Rightarrow \omega_3=0{,}875.
+> \end{aligned}
+> $$
+>
+> Ainsi $x_n$ converge vers $1$. Avec un pas constant $\gamma$, tant que la projection est inactive, on part de la règle de mise à jour $\omega_{n+1}=\max(0,\omega_n+\gamma(x_n-1))$ et l'on y substitue $x_n=2-\omega_n$, donc $x_n-1=1-\omega_n$ :
+>
+> $$
+> \begin{aligned}
+> \omega_{n+1}
+> &=\max\bigl(0,\ \omega_n+\gamma(1-\omega_n)\bigr)\\
+> &=(1-\gamma)\omega_n+\gamma,\\
+> \omega_{n+1}-1
+> &=(1-\gamma)(\omega_n-1).
+> \end{aligned}
+> $$
+>
+> La relation $\omega_{n+1}-1=(1-\gamma)(\omega_n-1)$ fait de $(\omega_n-1)$ une suite géométrique de raison $(1-\gamma)$ :
+>
+> $$\omega_n-1=(1-\gamma)^n(\omega_0-1).$$
+>
+> Elle tend vers $0$ si et seulement si $|1-\gamma|<1$, c'est-à-dire $0<\gamma<2$. Donc la suite converge pour $0<\gamma<2$ :
+>
+> - si $0<\gamma<1$, la raison $1-\gamma\in(0,1)$ donne une convergence monotone ($\gamma=\tfrac{1}{2}$ divise l'erreur par deux à chaque itération) ;
+> - si $\gamma=1$, la raison est nulle : $\gamma=1$ atteint ici la solution en une itération ;
+> - si $1<\gamma<2$, la raison $1-\gamma\in(-1,0)$ fait osciller le signe de l'erreur, mais son amplitude diminue tout de même vers $0$ ;
+> - si $\gamma\leq0$ ou $\gamma\geq2$, $|1-\gamma|\geq1$ et la suite ne converge plus.
+>
+> (Ce calcul suppose la projection $\max(0,\cdot)$ inactive, c'est-à-dire $\omega_n\geq0$ tout du long — vrai ici puisque $\omega_n\to1>0$.)
+
 ### Frank-Wolfe : éviter une projection difficile
 
-Projeter sur un polytope compliqué peut coûter cher. Frank-Wolfe ne projette pas : à $x_n$, il minimise la linéarisation sur $C$,
+Frank-Wolfe est une alternative au gradient projeté lorsque la projection sur l'ensemble de contraintes est difficile. L'idée est la suivante : plutôt que de faire un pas de gradient puis de le ramener dans $C$, on cherche directement une direction faisable qui paraît faire baisser le coût.
 
-$$z_n\in\operatorname*{argmin}_{z\in C}\langle\nabla f(x_n),z\rangle,$$
+Près de $x_n$, la fonction est approchée par sa tangente :
 
-puis avance sur le segment faisable :
+$$f(z)\approx f(x_n)+\langle\nabla f(x_n),z-x_n\rangle.$$
 
-$$x_{n+1}=(1-\gamma_n)x_n+\gamma_n z_n,\qquad\gamma_n\in]0,1].$$
+Le terme $f(x_n)$ est fixe. Pour minimiser ce modèle linéaire sur $C$, on cherche donc
+
+$$
+\begin{aligned}
+z_n
+&\in\operatorname*{argmin}_{z\in C}\langle\nabla f(x_n),z-x_n\rangle\\
+&=\operatorname*{argmin}_{z\in C}\langle\nabla f(x_n),z\rangle.
+\end{aligned}
+$$
 
 La seconde ligne est équivalente à la première car $-\langle\nabla f(x_n),x_n\rangle$ ne dépend pas de $z$. Le produit scalaire ne calcule pas la future valeur exacte de $f$ : il compare les **pentes prédites** par la linéarisation. Un produit scalaire négatif avec un déplacement indique que ce déplacement est, au premier ordre, descendant.
 
