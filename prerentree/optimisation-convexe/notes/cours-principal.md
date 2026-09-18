@@ -570,34 +570,167 @@ puis avance sur le segment faisable :
 
 $$x_{n+1}=(1-\gamma_n)x_n+\gamma_n z_n,\qquad\gamma_n\in]0,1].$$
 
-Si $C$ est compact convexe et $x_0\in C$, toute itération reste automatiquement dans $C$. Pour un gradient Lipschitzien et $\gamma_n=2/(n+2)$, l'écart d'objectif est de l'ordre de $1/n$. C'est souvent plus lent que le gradient projeté, mais l'« oracle linéaire » $z_n$ est parfois beaucoup plus simple qu'une projection.
+La seconde ligne est équivalente à la première car $-\langle\nabla f(x_n),x_n\rangle$ ne dépend pas de $z$. Le produit scalaire ne calcule pas la future valeur exacte de $f$ : il compare les **pentes prédites** par la linéarisation. Un produit scalaire négatif avec un déplacement indique que ce déplacement est, au premier ordre, descendant.
+
+On avance ensuite seulement sur le segment entre le point courant et ce point prometteur :
+
+$$\boxed{x_{n+1}=(1-\gamma_n)x_n+\gamma_nz_n,\qquad0\leq\gamma_n\leq1.}$$
+
+> [!example] Exemple sur le simplexe à deux coordonnées
+> Prends $C=\{(x_1,x_2):x_1\geq0,\ x_2\geq0,\ x_1+x_2=1\}$, le segment entre $(1,0)$ et $(0,1)$. Supposons $x_n=(1,0)$ et $\nabla f(x_n)=(1.6,-1.6)$.
+>
+> Les deux sommets donnent
+>
+> $$\langle(1.6,-1.6),(1,0)\rangle=1.6,\qquad
+> \langle(1.6,-1.6),(0,1)\rangle=-1.6.$$
+>
+> Frank-Wolfe choisit donc $z_n=(0,1)$. Le déplacement correspondant est $z_n-x_n=(-1,1)$ et
+>
+> $$\langle\nabla f(x_n),z_n-x_n\rangle=-3.2<0.$$
+>
+> Il est bien descendant. Avec $\gamma_n=\tfrac12$, on ne saute pas au sommet : on prend le milieu
+>
+> $$x_{n+1}=\tfrac12(1,0)+\tfrac12(0,1)=(0.5,0.5).$$
+
+La faisabilité est automatique : si $x_n,z_n\in C$ et si $C$ est convexe, toute moyenne $(1-\gamma_n)x_n+\gamma_nz_n$ appartient encore à $C$.
+
+Le choix $\gamma_n=\tfrac12$ dans l'exemple est seulement pédagogique. En pratique, on peut prendre le pas théorique $\gamma_n=2/(n+2)$, rechercher le meilleur pas sur le segment,
+
+$$\gamma_n\in\operatorname*{argmin}_{0\leq\gamma\leq1}
+f\bigl((1-\gamma)x_n+\gamma z_n\bigr),$$
+
+ou employer une règle propre au problème. Un petit pas est prudent mais lent ; un grand pas avance plus vite, avec le risque que l'approximation linéaire soit moins fidèle.
+
+#### Pourquoi cela évite une projection coûteuse ?
+
+Le gradient projeté formerait d'abord le point libre $u_n=x_n-\eta_n\nabla f(x_n)$, puis calculerait
+
+$$P_C(u_n)=\operatorname*{argmin}_{x\in C}\|x-u_n\|^2.$$
+
+Cette **projection** renvoie un point de $C$ le plus proche de $u_n$. Elle ne doit pas être confondue avec un produit scalaire, qui ne renvoie qu'un nombre et mesure l'alignement de deux vecteurs. Le produit scalaire intervient d'ailleurs dans la projection sur une droite :
+
+$$\operatorname{proj}_{v}(a)=\frac{\langle a,v\rangle}{\|v\|^2}v\qquad(v\ne0),$$
+
+mais ce n'est pas, à lui seul, une projection.
+
+Pour une boîte ou un simplexe, $P_C$ se calcule vite. En revanche, si $C=\{x:Ax\leq b\}$ comporte de nombreuses contraintes, calculer $P_C(u_n)$ demande de résoudre un problème quadratique contraint à chaque itération. Frank-Wolfe ne demande à la place que l'« oracle linéaire »
+
+$$\operatorname*{argmin}_{z\in C}\langle\nabla f(x_n),z\rangle.$$
+
+Sur un polytope décrit par ses sommets, cela revient souvent à choisir un sommet : c'est parfois beaucoup plus simple. Cet avantage dépend de la structure de $C$ ; il n'est pas automatique.
+
+Si $C$ est compact convexe, $x_0\in C$ et $f$ a un gradient Lipschitzien, le choix $\gamma_n=2/(n+2)$ donne un écart d'objectif de l'ordre de $1/n$. Frank-Wolfe est donc souvent plus lent que le gradient projeté, mais peut être nettement moins coûteux par itération.
 
 ## 11. Utiliser la courbure : Newton, quasi-Newton et sous-espaces (diapositives 22 à 25)
 
-La descente de gradient ne voit que la pente. Si $f$ est deux fois différentiable, Newton utilise également la courbure locale :
+La descente de gradient ne regarde que la **pente** : elle indique où descendre, mais ne sait pas si la vallée est très plate dans une direction et très raide dans une autre. Si $f$ est deux fois différentiable, Newton ajoute cette information de **courbure** grâce à la Hessienne.
+
+Près du point courant $x_n$, il remplace $f$ par un modèle quadratique, c'est-à-dire un petit bol :
 
 $$f(x)\simeq f(x_n)+\langle\nabla f(x_n),x-x_n\rangle
 +\tfrac12\langle x-x_n,\nabla^2f(x_n)(x-x_n)\rangle.$$
 
-Minimiser ce modèle quadratique donne
+Le gradient donne l'inclinaison du sol ; la Hessienne indique à quelle vitesse le sol se redresse. Minimiser ce modèle donne le pas de Newton
 
-$$\boxed{x_{n+1}=x_n-[\nabla^2f(x_n)]^{-1}\nabla f(x_n),}$$
+$$x_{n+1}=x_n-[\nabla^2f(x_n)]^{-1}\nabla f(x_n),$$
 
-lorsque la Hessienne est définie positive. Cette méthode est spectaculaire près d'un minimum non dégénéré : l'erreur devient proportionnelle au **carré** de l'erreur précédente (convergence quadratique). En revanche, chaque pas impose de former ou résoudre un système avec la Hessienne, et le comportement loin du minimum peut être mauvais.
+lorsque la Hessienne est définie positive. Elle garantit alors que le modèle local est bien un bol avec un fond, et non une selle ou une bosse.
 
-On emploie souvent un Newton amorti ou régularisé,
+### Exemple : un bol plat dans une direction, raide dans l'autre
+
+Considère
+
+$$f(x,y)=(x-2)^2+10(y-1)^2.$$
+
+Son minimum est $(2,1)$. Le coefficient $10$ signifie que le bol est dix fois plus raide dans la direction $y$ que dans la direction $x$. Depuis $x_0=(0,0)$,
+
+$$\nabla f(x_0)=\begin{pmatrix}-4\\-20\end{pmatrix},
+\qquad
+\nabla^2f(x_0)=\begin{pmatrix}2&0\\0&20\end{pmatrix}.$$
+
+Une descente de gradient avec un unique pas $\gamma$ proposerait
+
+$$x_1=(0,0)-\gamma(-4,-20)=(4\gamma,20\gamma).$$
+
+Il faudrait donc un compromis : un pas assez petit pour ne pas trop dépasser dans la direction raide $y$, mais pas trop petit dans la direction plate $x$. Newton corrige chaque direction selon sa courbure : il fait un grand déplacement là où le bol est plat et un plus petit là où il est raide.
+
+### En pratique, on résout un système, on ne calcule pas une inverse
+
+L'écriture avec $[\nabla^2f(x_n)]^{-1}$ est compacte, mais on ne fabrique en général pas cette grande matrice inverse. On cherche plutôt le déplacement $p_n$ qui minimise le modèle quadratique :
+
+$$x_{n+1}=x_n+p_n.$$
+
+En posant $x=x_n+p$ dans le modèle, on obtient
+
+$$q_n(p)=f(x_n)+\langle\nabla f(x_n),p\rangle
++\frac12\langle p,\nabla^2f(x_n)p\rangle.$$
+
+Au minimum de $q_n$, son gradient par rapport à $p$ doit être nul :
+
+$$\nabla_p q_n(p_n)=\nabla f(x_n)+\nabla^2f(x_n)p_n=0.$$
+
+D'où le système linéaire fondamental de Newton :
+
+$$\boxed{\nabla^2f(x_n)p_n=-\nabla f(x_n).}$$
+
+Dans l'exemple, ce système est
+
+$$
+\begin{pmatrix}2&0\\0&20\end{pmatrix}
+\begin{pmatrix}p_1\\p_2\end{pmatrix}
+=\begin{pmatrix}4\\20\end{pmatrix}.
+$$
+
+Il revient à résoudre $2p_1=4$ et $20p_2=20$, donc $p_n=(2,1)$ et
+
+$$x_1=x_0+p_n=(0,0)+(2,1)=(2,1).$$
+
+Newton atteint le minimum en une itération ici parce que $f$ est exactement quadratique : son modèle local est la fonction elle-même. En grande dimension, le système est résolu par un algorithme linéaire adapté, ce qui est moins coûteux et plus stable que de calculer l'inverse complète de la Hessienne.
+
+> [!example] Lecture en une dimension
+> Pour $q(p)=a+bp+\tfrac12cp^2$, le minimum satisfait $q'(p)=b+cp=0$, soit $cp=-b$. L'équation de Newton est exactement la même relation : le coefficient $c$ devient la Hessienne et $b$ le gradient.
+
+### Pourquoi Newton devient très rapide près du minimum
+
+Notons $x^*$ le minimum et $e_n=\|x_n-x^*\|$ l'erreur. Quand on est déjà proche de $x^*$, le vrai paysage ressemble très bien au bol quadratique utilisé par Newton. Il reste une petite différence, mais elle est d'ordre trois dans le développement de Taylor ; après minimisation du modèle, elle donne une nouvelle erreur d'ordre deux :
+
+$$e_{n+1}\leq C e_n^2.$$
+
+Le carré est décisif. Si $e_n=0.1$ et, pour l'image, $C\simeq1$, les erreurs deviennent
+
+$$0.1\longmapsto0.01\longmapsto0.0001\longmapsto0.00000001.$$
+
+C'est la **convergence quadratique**. Pour comparaison, une descente de gradient bien réglée a souvent une convergence linéaire $e_{n+1}\simeq\rho e_n$ avec $0<\rho<1$ : avec $\rho=1/2$, on obtient $0.1\mapsto0.05\mapsto0.025\mapsto0.0125$. Newton est donc spectaculaire près du fond du bon bol, mais son modèle peut être trompeur loin de ce fond.
+
+### Newton amorti ou régularisé : une ceinture de sécurité
+
+Pour stabiliser la méthode loin du minimum ou face à une Hessienne mal conditionnée, on utilise souvent
 
 $$x_{n+1}=x_n-\gamma_n[\nabla^2f(x_n)+\eta_nI]^{-1}\nabla f(x_n),$$
 
-pour stabiliser une Hessienne mal conditionnée. Les méthodes **quasi-Newton** remplacent ensuite la Hessienne inverse par une approximation définie positive $H_n^{-1}$, d'où
+avec $\gamma_n\in]0,1]$ et $\eta_n>0$. Le facteur $\gamma_n$ raccourcit un pas trop ambitieux ; le terme $\eta_nI$ ajoute de la courbure positive, ce qui rend l'inversion plus sûre. Près du minimum, on peut relâcher ces précautions et retrouver l'accélération de Newton.
+
+### Quasi-Newton : apprendre la courbure
+
+Calculer la Hessienne peut être coûteux. Les méthodes **quasi-Newton** construisent donc, à partir des déplacements et des changements de gradient observés, une approximation définie positive $H_n^{-1}$ de son inverse :
 
 $$x_{n+1}=x_n-H_n^{-1}\nabla f(x_n).$$
 
-Enfin, les méthodes à **sous-espace** cherchent le pas dans quelques directions mémorisées plutôt que dans tout l'espace :
+Elles apprennent ainsi quelles directions sont plutôt plates ou raides sans stocker une Hessienne dense. BFGS et L-BFGS sont les méthodes classiques de cette famille ; L-BFGS ne conserve que quelques informations récentes.
+
+### Sous-espaces : mélanger quelques directions utiles
+
+Enfin, les méthodes à **sous-espace** ne cherchent pas dans toutes les directions possibles. Elles combinent par exemple la direction de gradient et le déplacement précédent $d_n=x_n-x_{n-1}$ :
 
 $$x_{n+1}=x_n-\gamma_n^{(1)}\nabla f(x_n)+\gamma_n^{(2)}d_n,$$
 
-par exemple avec $d_n=x_n-x_{n-1}$. On optimise les deux coefficients, exactement ou grâce à un modèle quadratique. C'est l'idée derrière des méthodes à mémoire comme L-BFGS : conserver assez d'information sur la courbure pour accélérer, sans stocker une Hessienne dense.
+en choisissant les deux coefficients $\gamma_n^{(1)}$ et $\gamma_n^{(2)}$ exactement ou avec un modèle quadratique. L'idée est de tirer parti de l'élan des derniers pas sans devoir explorer tout l'espace.
+
+> [!summary] À retenir
+> - **Gradient** : suit seulement la pente.
+> - **Newton** : utilise pente et courbure exacte.
+> - **Quasi-Newton** : apprend une approximation de la courbure.
+> - **Sous-espace** : choisit un bon mélange de quelques directions mémorisées.
 
 ## Fil de résolution - version complète
 
