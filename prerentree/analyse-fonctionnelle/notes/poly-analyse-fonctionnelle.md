@@ -19,15 +19,13 @@ Ce poly reprend les notions du support de manière volontairement intuitive. Les
 
 ## 0. Le socle à avoir en tête
 
-Avant de commencer, quelques réflexes reviennent partout.
+Les prérequis sont organisés en notes séparées pour pouvoir les relire indépendamment :
 
-- Deux fonctions qui ne diffèrent que sur un ensemble de mesure nulle sont considérées comme la même fonction. Modifier une fonction en un point isolé ne change donc ni ses intégrales ni son appartenance à un espace $L^p$.
-- Une **norme** mesure la taille d'un vecteur ou d'une fonction. En dimension finie, toutes les normes raisonnables donnent la même notion de convergence. En dimension infinie, ce n'est plus vrai : choisir $L^1$, $L^2$ ou $L^\infty$ change réellement le problème.
-- Un espace est **complet** si toute suite qui devrait converger du point de vue de sa norme converge effectivement dans cet espace. C'est la garantie que les procédés d'approximation ne « sortent pas » de l'espace considéré.
-- Une fonction est **dense** dans un espace lorsqu'on peut approcher aussi bien qu'on veut n'importe quel élément de l'espace à partir de fonctions de cette famille. Les fonctions lisses à support compact jouent très souvent ce rôle de briques élémentaires.
-
-> [!example] Une image utile
-> Dans $\mathbb R^n$, les vecteurs sont des listes de nombres. En analyse fonctionnelle, un « vecteur » peut être une fonction $f(x)$, donc une infinité de valeurs. Une norme résume alors la taille de toutes ces valeurs en un seul nombre.
+- [[fiches-aide/00-socle-analyse-fonctionnelle|Vue d’ensemble du socle]]
+- [[fiches-aide/01-presque-partout|Presque partout : ensembles négligeables et égalité presque partout]]
+- [[fiches-aide/02-normes-et-convergence|Normes et convergence : ce que signifie « être proche »]]
+- [[fiches-aide/03-completude|Complétude : suites de Cauchy et limites]]
+- [[fiches-aide/04-densite|Densité : approcher avec des fonctions simples]]
 
 ---
 
@@ -41,37 +39,284 @@ $$
 \int_\Omega |f(x)|\,dx < \infty.
 $$
 
-La norme $\|f\|_{L^1}=\int |f|$ mesure donc une **masse totale**. Une fonction peut prendre des valeurs négatives, mais l'intégrabilité demande que ses parties positive et négative ne cachent pas une masse infinie.
+La valeur absolue est essentielle. Une intégrale sans valeur absolue peut faire disparaître deux grandes contributions de signes opposés ; la norme $L^1$, elle, compte tout ce qui est présent, sans compensation. On l'interprète donc comme une **masse totale**, une quantité totale de matière, ou encore l'aire totale comprise entre le graphe et l'axe des abscisses.
 
-> [!example] Deux comportements opposés
-> Sur $(0,1)$, la fonction $x\mapsto x^{-1/2}$ est dans $L^1$ : sa singularité près de zéro est assez douce. En revanche, $x\mapsto 1/x$ n'y est pas intégrable : l'aire accumulée près de zéro est infinie.
+> [!example] L'intégrale signée peut être trompeuse
+> Soit $f=1$ sur $(0,1)$, $f=-1$ sur $(1,2)$, et $f=0$ ailleurs. Alors
+> $$
+> \int_{\mathbb R}f(x)\,dx=0,
+> \qquad
+> \|f\|_{L^1(\mathbb R)}=\int_{\mathbb R}|f(x)|\,dx=2.
+> $$
+> Le bilan net est nul, mais il y a bien une unité de masse positive et une unité de masse négative. La norme $L^1$ mesure l'intensité totale, pas seulement le bilan.
+
+#### Parties positive et négative
+
+Pour distinguer ce qui est ajouté de ce qui est retiré, on écrit
+
+$$
+f^+(x)=\max(f(x),0),
+\qquad
+f^-(x)=\max(-f(x),0).
+$$
+
+Ainsi, $f=f^+-f^-$ et $|f|=f^++f^-$. Dire que $f\in L^1(\Omega)$ revient à demander que **les deux masses**
+
+$$
+\int_\Omega f^+(x)\,dx
+\qquad \text{et} \qquad
+\int_\Omega f^-(x)\,dx
+$$
+
+soient finies. Dans ce cas seulement, l'intégrale signée a un sens non ambigu :
+
+$$
+\int_\Omega f(x)\,dx
+=
+\int_\Omega f^+(x)\,dx-\int_\Omega f^-(x)\,dx.
+$$
+
+Cette précaution évite l'expression indéterminée « $\infty-\infty$ ». Une fonction peut avoir autant de masse positive que négative, mais si ces deux masses sont infinies, on ne peut pas conclure que son intégrale vaut $0$.
+
+#### Lire la norme $L^1$
+
+La norme
+
+$$
+\|f\|_{L^1(\Omega)}=\int_\Omega |f(x)|\,dx
+$$
+
+possède plusieurs lectures équivalentes :
+
+- en physique, c'est la masse totale quand $f\geq0$ ;
+- pour une densité d'erreur, c'est l'erreur totale accumulée ;
+- en traitement du signal, elle pénalise l'amplitude sur toute la durée du signal ;
+- géométriquement, c'est l'aire entre le graphe de $f$ et l'axe horizontal.
+
+Elle ignore les modifications sur un ensemble de mesure nulle. Modifier $f$ en un point, ou même sur un ensemble dénombrable, ne change ni son intégrale ni sa norme $L^1$.
+
+> [!tip] Un test de bon sens
+> Pour vérifier qu'une fonction est dans $L^1$, il faut examiner les zones où elle peut accumuler une aire infinie : près d'une singularité, à l'infini, ou sur une région de grande mesure. Une fonction bornée n'est pas nécessairement dans $L^1$ sur un domaine infini : la constante $1$ appartient à $L^\infty(\mathbb R)$, mais pas à $L^1(\mathbb R)$.
+
+#### Deux comportements opposés près d'une singularité
+
+Sur $(0,1)$, les fonctions $x\mapsto x^{-\alpha}$ illustrent le seuil critique :
+
+$$
+x^{-\alpha}\in L^1(0,1)
+\quad\Longleftrightarrow\quad
+\alpha<1.
+$$
+
+En effet, pour $\alpha<1$,
+
+$$
+\int_0^1x^{-\alpha}\,dx
+=
+\frac{1}{1-\alpha},
+$$
+
+qui est fini. La fonction $x\mapsto x^{-1/2}$ est donc dans $L^1(0,1)$, et sa norme vaut $2$. Sa valeur explose bien quand $x$ tend vers $0$, mais pas assez vite pour que l'aire devienne infinie.
+
+À l'inverse, pour $f(x)=1/x$,
+
+$$
+\int_\varepsilon^1\frac{1}{x}\,dx
+=
+-\log(\varepsilon)
+\xrightarrow[\varepsilon\to0^+]{}+\infty.
+$$
+
+La singularité de $1/x$ est juste assez forte pour produire une aire infinie : $1/x\notin L^1(0,1)$.
+
+> [!example] Ce qui se passe à l'infini
+> Sur $(1,+\infty)$, le seuil s'inverse :
+> $$
+> x^{-\beta}\in L^1(1,+\infty)
+> \quad\Longleftrightarrow\quad
+> \beta>1.
+> $$
+> Par exemple, $1/x^2$ décroît assez vite pour avoir une masse totale finie, tandis que $1/x$ garde trop de masse dans sa longue traîne.
+
+#### Intégrable au sens de Lebesgue ou seulement par compensation ?
+
+On ne parle pas, en général, de « fonction impropre », mais d'**intégrale impropre**. C'est une intégrale qui ne peut pas être calculée directement sur son domaine parce que :
+
+- le domaine est infini, comme $(1,+\infty)$ ;
+- ou la fonction devient non bornée à une extrémité ou en un point du domaine, comme $1/x$ au voisinage de $0$.
+
+On lui donne un sens en coupant d'abord la partie problématique, puis en faisant tendre la coupure vers la limite. Par exemple,
+
+$$
+\int_1^{+\infty} f(x)\,dx
+=
+\lim_{R\to+\infty}\int_1^R f(x)\,dx,
+$$
+
+à condition que cette limite existe et soit finie. De même, si $f$ explose en $a$,
+
+$$
+\int_a^b f(x)\,dx
+=
+\lim_{\varepsilon\to0^+}\int_{a+\varepsilon}^b f(x)\,dx.
+$$
+
+La condition $f\in L^1$ est plus forte que le fait qu'une intégrale impropre signée converge. Par exemple,
+
+$$
+\int_1^{+\infty}\frac{\sin(x)}{x}\,dx
+$$
+
+converge grâce aux oscillations de $\sin(x)$, mais $\sin(x)/x$ n'est pas dans $L^1(1,+\infty)$ :
+
+$$
+\int_1^{+\infty}\frac{|\sin(x)|}{x}\,dx=+\infty.
+$$
+
+Cette distinction est importante en analyse fonctionnelle. L'intégrabilité absolue donne des résultats robustes : on peut notamment contrôler les erreurs en norme $L^1$, appliquer les théorèmes de convergence et utiliser Fubini dans les bonnes conditions. Les compensations de signe seules sont plus fragiles.
 
 ### 1.2. Pourquoi les théorèmes de convergence sont nécessaires
 
 On aimerait souvent écrire
 
 $$
-\lim_{n\to\infty}\int f_n = \int \lim_{n\to\infty} f_n.
+\lim_{n\to\infty}\int_\Omega f_n(x)\,dx
+=
+\int_\Omega \left(\lim_{n\to\infty}f_n(x)\right)\,dx.
 $$
 
-Ce passage de limite sous l'intégrale est **faux en général**. Les théorèmes suivants donnent des conditions simples qui l'autorisent.
+Ici, $x$ et $n$ jouent deux rôles très différents :
+
+- $x$ est la **position** dans le domaine $\Omega$ : une fois $x$ choisi, $f_n(x)$ est un nombre ;
+- $n$ est le **numéro de l'étape** dans une suite de fonctions : $f_1,f_2,f_3,\ldots$ sont des fonctions différentes.
+
+Ainsi, $f_n$ ne désigne pas une nouvelle variable : c'est la $n$-ième fonction de la suite. La fonction $f$ est la **fonction limite**. Elle est définie point par point, lorsque la limite existe, par
+
+$$
+f(x)=\lim_{n\to\infty}f_n(x).
+$$
+
+> [!example] Une suite de fonctions vue en un point
+> Sur $(0,1)$, si $f_n(x)=x^n$, alors $f_1(x)=x$, $f_2(x)=x^2$, $f_3(x)=x^3$, etc. Pour un $x$ fixé strictement entre $0$ et $1$, les valeurs $x,x^2,x^3,\ldots$ deviennent de plus en plus petites. La fonction limite est donc $f(x)=0$ sur $(0,1)$. Ici, $f$ n'est pas « $f_n$ sans l'indice » : c'est la fonction obtenue après avoir laissé $n$ tendre vers l'infini.
+
+On peut lire cette égalité comme deux recettes différentes.
+
+**Recette de gauche : aire, puis limite.**
+
+1. Pour chaque $n$, on calcule l'aire signée entière sous la courbe $f_n$ : $I_n=\int_\Omega f_n(x)\,dx$.
+2. On obtient une suite de nombres $I_1,I_2,I_3,\ldots$.
+3. On regarde la limite de ces nombres : $\lim_{n\to\infty}I_n$.
+
+**Recette de droite : limite de la courbe, puis aire.**
+
+1. On choisit un point $x$ et on observe la suite de hauteurs $f_1(x),f_2(x),f_3(x),\ldots$.
+2. Si ces hauteurs ont une limite, on la note $f(x)$.
+3. On recommence pour chaque $x$ : cela fabrique la courbe limite $f$.
+4. On calcule ensuite son aire : $\int_\Omega f(x)\,dx$.
+
+> [!example] Le contre-exemple à visualiser
+> Sur $(0,1)$, posons
+> $$
+> f_n(x)=n\,\mathbf 1_{(0,1/n)}(x).
+> $$
+> La courbe $f_n$ est un rectangle très haut, de hauteur $n$, mais très fin, de largeur $1/n$. Son aire vaut toujours
+> $$
+> \int_0^1 f_n(x)\,dx=n\times\frac1n=1.
+> $$
+> La recette de gauche donne donc $1$.
+>
+> Maintenant, fixons un point précis, par exemple $x=0{,}1$. Pour $n=2$, le rectangle occupe $(0,1/2)$ : il contient $0{,}1$, donc $f_2(0{,}1)=2$. Pour $n=20$, il n'occupe plus que $(0,1/20)=(0,0{,}05)$ : il ne contient plus $0{,}1$, donc $f_{20}(0{,}1)=0$. Il en sera de même pour tous les rangs suivants.
+>
+> Le rectangle ne se déplace pas : il reste collé à $0$, devient de plus en plus étroit et de plus en plus haut.
+>
+> C'est toujours le même mécanisme. Si $x>0$ est fixé, on peut choisir un entier $N$ tel que $1/N<x$. Dès que $n\geq N$, on a aussi $1/n<x$, donc $x\notin(0,1/n)$. L'indicatrice $\mathbf 1_{(0,1/n)}(x)$ vaut alors $0$, et par conséquent $f_n(x)=0$. Ainsi, pour chaque point fixe de $(0,1)$, la suite $f_n(x)$ finit par être constamment nulle ; elle converge donc vers $0$.
+>
+> La courbe limite est donc $f=0$ sur $(0,1)$. Oui, dans la recette de droite, on peut alors remplacer $f(x)$ par $0$ dans l'intégrale : ce n'est pas une approximation, mais une égalité, puisque $f(x)=0$ pour tout $x\in(0,1)$. On obtient
+> $$
+> \int_0^1f(x)\,dx=\int_0^1 0\,dx=0.
+> $$
+>
+> En revanche, on ne peut pas remplacer $f_n(x)$ par $0$ dans les intégrales $\int_0^1f_n(x)\,dx$ avant de les calculer : pour tout $n$, $f_n$ n'est pas la fonction nulle et son aire vaut $1$. C'est exactement la différence entre les deux recettes.
+>
+> Ici, « limite puis aire » donne $0$, tandis que « aire puis limite » donne $1$. La masse ne disparaît pas : elle se concentre juste tout près de $0$, dans une zone que chaque point fixe finit par ne plus voir.
+
+Écrire une égalité entre les deux recettes revient à **échanger une limite et une intégrale**. Cet échange est faux en général ; les théorèmes suivants donnent des hypothèses qui empêchent la masse de se concentrer ainsi ou de s'échapper à l'infini.
 
 #### Convergence monotone — Beppo Levi
 
-Si les fonctions $f_n$ sont positives et croissent point par point vers $f$, alors leurs intégrales croissent aussi vers l'intégrale de $f$. Il n'y a pas besoin de majorant : l'absence d'oscillations et de signes négatifs suffit.
+Le théorème de convergence monotone s'applique lorsque les fonctions s'empilent **par dessous** :
 
-> [!example] Approcher une aire par dessous
-> Si $f\ge 0$ et que $f_n=\min(f,n)$, alors $f_n\uparrow f$. On peut donc calculer l'intégrale de $f$ comme la limite des intégrales de ses versions « tronquées ».
+$$
+0\le f_1(x)\le f_2(x)\le\cdots
+\qquad \text{et} \qquad
+f_n(x)\xrightarrow[n\to\infty]{}f(x)
+$$
+
+pour presque tout $x$. Alors
+
+$$
+\int_\Omega f_n(x)\,dx
+\xrightarrow[n\to\infty]{}
+\int_\Omega f(x)\,dx.
+$$
+
+L'égalité est même valable si les deux membres tendent vers $+\infty$. Si les intégrales de $f_n$ restent bornées, la limite $f$ est intégrable et l'on obtient une véritable convergence dans $L^1$.
+
+L'intuition est très simple : chaque étape ajoute de la masse positive, sans jamais en retirer. Il n'y a donc ni annulation de signes, ni masse qui disparaît mystérieusement ; l'aire limite est exactement l'aire obtenue en laissant les aires croissantes s'accumuler.
+
+> [!example] Des intervalles qui remplissent $(0,1)$
+> Sur $(0,1)$, posons $f_n=\mathbf 1_{(1/n,1)}$. Pour tout $x>0$, la suite vaut finalement $1$ ; elle croît donc vers la fonction constante $f=1$. De plus,
+> $$
+> \int_0^1 f_n(x)\,dx=1-\frac1n
+> \xrightarrow[n\to\infty]{}1
+> =
+> \int_0^1f(x)\,dx.
+> $$
+> Le théorème formalise ici une évidence géométrique : les intervalles $(1/n,1)$ remplissent progressivement presque tout $(0,1)$.
+
+> [!example] Tronquer une fonction positive
+> Si $f\geq0$, la suite $f_n=\min(f,n)$ augmente point par point vers $f$. Cette approximation coupe seulement les pics trop hauts et les rétablit progressivement. C'est l'usage typique de Beppo Levi : approcher une fonction positive éventuellement compliquée par des fonctions plus contrôlables.
 
 #### Convergence dominée — Lebesgue
 
-Si $f_n\to f$ presque partout et s'il existe une fonction intégrable $h$ telle que
+Le théorème de convergence dominée ne demande ni positivité ni monotonie. Il suffit que $f_n$ converge vers $f$ presque partout et qu'une même fonction intégrable $h$ contrôle toutes les fonctions de la suite :
 
 $$
 |f_n(x)|\le h(x) \quad \text{pour presque tout }x \text{ et tout }n,
 $$
 
-alors on peut passer à la limite sous l'intégrale. Le majorant $h$ empêche la masse de se concentrer ou de s'échapper pendant la limite.
+avec $h\in L^1(\Omega)$. Alors $f\in L^1(\Omega)$ et
+
+$$
+\int_\Omega f_n(x)\,dx
+\xrightarrow[n\to\infty]{}
+\int_\Omega f(x)\,dx.
+$$
+
+Plus fort encore, les fonctions convergent en norme $L^1$ :
+
+$$
+\int_\Omega|f_n(x)-f(x)|\,dx
+\xrightarrow[n\to\infty]{}0.
+$$
+
+Le majorant $h$ fournit un budget global fini : quelle que soit la valeur de $n$, $f_n$ ne peut pas cacher une masse plus grande que celle de $h$. Il empêche donc la masse de se concentrer ou de s'échapper pendant la limite.
+
+> [!example] Une suite décroissante, mais dominée
+> Sur $(0,1)$, prenons $f_n(x)=x^n$. Pour tout $x\in(0,1)$, on a $x^n\to0$. De plus,
+> $$
+> |x^n|\le1
+> \qquad \text{et} \qquad
+> 1\in L^1(0,1).
+> $$
+> La convergence dominée donne donc
+> $$
+> \int_0^1x^n\,dx=\frac1{n+1}
+> \xrightarrow[n\to\infty]{}0
+> =
+> \int_0^1 0\,dx.
+> $$
+> Cette suite décroît sur $(0,1)$ ; elle ne relève donc pas de Beppo Levi, mais elle relève parfaitement de la convergence dominée.
 
 > [!example] Le rôle concret du majorant
 > Les fonctions $f_n(x)=n\,\mathbf 1_{(0,1/n)}(x)$ convergent vers $0$ presque partout sur $(0,1)$, mais $\int_0^1 f_n=1$ pour tout $n$. Elles n'admettent pas de majorant intégrable commun. C'est exactement le phénomène que l'hypothèse de domination exclut.
