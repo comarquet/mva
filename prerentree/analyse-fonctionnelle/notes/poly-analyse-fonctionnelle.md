@@ -407,21 +407,315 @@ Cette formule donne vraiment à $\|\cdot\|_{L^p}$ le statut de norme. Elle dit q
 
 ### 2.3. Interpolation : être contrôlé à deux échelles
 
-Si $f$ appartient à la fois à $L^s$ et à $L^t$, alors elle appartient aussi à tous les espaces intermédiaires $L^r$, avec $s\le r\le t$. Sa norme $L^r$ est contrôlée par un mélange de ses normes aux deux extrémités.
+Si une fonction appartient à la fois à $L^s$ et à $L^t$, elle appartient aussi à tous les espaces intermédiaires $L^r$, avec $s\leq r\leq t$. L'idée est qu'elle est contrôlée à deux échelles : une norme regarde la masse répartie sur tout le domaine, l'autre pénalise davantage les grands pics. Entre les deux, il n'y a pas de nouvelle difficulté.
 
-Intuitivement, une information sur la masse globale et une information sur les très grands pics donnent un contrôle à une échelle intermédiaire. Cette propriété est particulièrement utile pour obtenir des estimées sans recalculer une intégrale à chaque exposant.
+La formule à retenir est la suivante. Si $\theta\in[0,1]$ est choisi de sorte que
+
+$$
+\frac1r
+=
+\frac{\theta}{s}+\frac{1-\theta}{t},
+$$
+
+alors
+
+$$
+\|f\|_{L^r(\Omega)}
+\leq
+\|f\|_{L^s(\Omega)}^{\theta}
+\|f\|_{L^t(\Omega)}^{1-\theta}.
+$$
+
+Autrement dit, la norme intermédiaire est bornée par un mélange des deux normes que l'on connaît déjà. C'est particulièrement utile pour estimer une norme $L^r$ sans recalculer son intégrale.
+
+> [!example] Entre $L^1$ et $L^\infty$
+> Prenons un pic rectangulaire : $f(x)=10$ sur $(0,0{,}01)$ et $f(x)=0$ ailleurs. Sa hauteur maximale est $10$, donc
+> $$
+> \|f\|_{L^\infty}=10.
+> $$
+> Sa masse totale vaut seulement
+> $$
+> \|f\|_{L^1}=10\times0{,}01=0{,}1.
+> $$
+> Pour obtenir $L^2$ à partir de $L^1$ et $L^\infty$, on prend $s=1$, $r=2$ et $t=\infty$. La relation entre les exposants devient
+> $$
+> \frac12
+> =
+> \frac{\theta}{1}+\frac{1-\theta}{\infty}
+> =\theta,
+> $$
+> puisque $1/\infty=0$. Il faut donc choisir $\theta=1/2$. La formule d'interpolation devient alors
+> $$
+> \|f\|_{L^2}
+> \leq
+> \|f\|_{L^1}^{1/2}\|f\|_{L^\infty}^{1/2}
+> $$
+> On remplace enfin les deux normes connues par leurs valeurs :
+> $$
+> \|f\|_{L^2}
+> \leq
+> (0{,}1)^{1/2}\,10^{1/2}
+> =\sqrt{0{,}1}\sqrt{10}
+> =\sqrt{0{,}1\times10}
+> =1.
+> $$
+> Ici, la borne est même exacte : $\|f\|_{L^2}=1$. Le pic est très haut, mais si étroit que sa masse reste faible ; la norme $L^2$ traduit précisément ce compromis.
 
 > [!warning] Les inclusions dépendent du domaine
-> Sur un domaine de mesure finie, $L^q\subset L^p$ si $q>p$ : contrôler les grandes valeurs contrôle aussi la masse. Sur $\mathbb R^d$, aucune inclusion générale de ce type n'est vraie sans hypothèse supplémentaire ; les problèmes peuvent venir soit près d'une singularité, soit à l'infini.
+> **But de cet encadré :** savoir si une information $f\in L^q(\Omega)$ permet automatiquement de conclure que $f\in L^p(\Omega)$, sans refaire de calcul. La réponse dépend de la taille du domaine.
+>
+> Pour comprendre ce point, commençons par le cas le plus simple : « bornée » signifie appartenir à $L^\infty$, et « masse totale finie » signifie appartenir à $L^1$.
+>
+> Sur $(0,1)$, une fonction bornée est automatiquement intégrable. Si $|f(x)|\leq M$, alors le graphe de $|f|$ reste sous un rectangle de hauteur $M$ et de largeur $1$. Son aire ne peut donc pas dépasser $M$ :
+> $$
+> \int_0^1|f(x)|\,dx\leq\int_0^1M\,dx=M.
+> $$
+> C'est cela que veut dire « le domaine est de mesure finie » : il n'y a qu'une largeur finie sur laquelle une fonction peut accumuler de la masse. Le résultat général est le même phénomène : si $q>p$, alors sur un tel domaine $L^q(\Omega)\subset L^p(\Omega)$.
+> $$
+> \|f\|_{L^p(\Omega)}
+> \leq
+> \mu(\Omega)^{1/p-1/q}\|f\|_{L^q(\Omega)}.
+> $$
+> Voici comment lire cette formule, de droite à gauche :
+>
+> - $\|f\|_{L^q(\Omega)}$ est l'information dont on dispose déjà, à l'exposant le plus grand $q$ ;
+> - $\mu(\Omega)$ est le volume du domaine : sa longueur en dimension $1$, son aire en dimension $2$, son volume en dimension $3$ ;
+> - le facteur $\mu(\Omega)^{1/p-1/q}$ corrige cette information selon la taille du domaine ;
+> - le résultat contrôle $\|f\|_{L^p(\Omega)}$, la norme plus faible que l'on cherche à estimer.
+>
+> Par exemple, prenons $\Omega=(0,4)$, $p=1$, $q=2$ et $f(x)=1$. La formule devient
+> $$
+> \|f\|_{L^1(0,4)}
+> \leq
+> \mu((0,4))^{1-1/2}\|f\|_{L^2(0,4)}
+> =4^{1/2}\|f\|_{L^2(0,4)}.
+> $$
+> Or la masse de $f$ vaut $\|f\|_{L^1(0,4)}=4$, tandis que
+> $$
+> \|f\|_{L^2(0,4)}
+> =\left(\int_0^4 1^2\,dx\right)^{1/2}
+> =\sqrt4=2.
+> $$
+> Le membre de droite vaut donc $4^{1/2}\times2=2\times2=4$. On obtient $4\leq4$ : la borne est exacte pour cette fonction constante. Le facteur $\sqrt4=2$ est précisément ce qui tient compte du fait que le domaine a une longueur $4$, et non une longueur $1$.
+>
+> Sur $(0,+\infty)$, le rectangle peut avoir une largeur infinie. La fonction constante $f(x)=1$ est bien bornée, donc dans $L^\infty$, mais elle n'est pas dans $L^1$, car
+> $$
+> \int_0^{+\infty}1\,dx=+\infty.
+> $$
+> Ainsi, sur $\mathbb R^d$, être contrôlé pour les grandes valeurs ne suffit plus à contrôler la masse : la fonction peut être petite mais s'étaler sans fin.
+>
+> L'autre difficulté concerne les pics. Sur $(0,1)$, prenons
+> $$
+> f(x)=x^{-2/3}
+> $$
+> qui devient très grande lorsque $x$ se rapproche de $0$. Malgré ce pic,
+> $$
+> \int_0^1|f(x)|\,dx
+> =\int_0^1x^{-2/3}\,dx=3,
+> $$
+> donc $f\in L^1(0,1)$. Mais, pour regarder $L^2$, il faut élever la fonction au carré :
+> $$
+> \int_0^1|f(x)|^2\,dx
+> =\int_0^1x^{-4/3}\,dx=+\infty.
+> $$
+> Le carré rend le pic trop coûteux. Donc $f\notin L^2(0,1)$, même si le domaine est borné.
+>
+> Enfin, sur $(1,+\infty)$, reprenons la même expression
+> $$
+> g(x)=x^{-2/3}
+> $$
+> mais regardons cette fois ce qui se passe loin de $0$. Son carré décroît assez vite :
+> $$
+> \int_1^{+\infty}|g(x)|^2\,dx
+> =\int_1^{+\infty}x^{-4/3}\,dx=3.
+> $$
+> Donc $g\in L^2(1,+\infty)$. En revanche,
+> $$
+> \int_1^{+\infty}|g(x)|\,dx
+> =\int_1^{+\infty}x^{-2/3}\,dx=+\infty,
+> $$
+> donc $g\notin L^1(1,+\infty)$. Ici, le problème n'est pas un pic : c'est une queue qui décroît, mais trop lentement, sur une longueur infinie.
+>
+> À retenir : sur un domaine fini, le volume limite la masse. Sur un domaine infini, il faut vérifier séparément les pics près des singularités et les queues à l'infini.
 
 ### 2.4. Complétude, dualité et localisation
 
 - Les espaces $L^p$ sont complets : une suite de Cauchy pour $\|\cdot\|_{L^p}$ possède une limite dans $L^p$.
-- Une forme linéaire continue sur $L^p$ peut souvent s'écrire comme une intégrale $f\mapsto\int uf$, avec $u\in L^{p'}$. C'est la représentation de Riesz pour les $L^p$ du support (en particulier, $(L^1)'=L^\infty$).
-- La notation $L^p_{\mathrm{loc}}(\Omega)$ signifie « dans $L^p$ sur tout compact ». Elle autorise un mauvais comportement à l'infini, mais pas dans une zone bornée.
+
+#### Dualité : tester une fonction par une autre fonction
+
+Avant de parler de fonctions, pensons à un vecteur $v=(v_1,\ldots,v_n)\in\mathbb R^n$. Pour en extraire un nombre de manière linéaire, on choisit des poids $u=(u_1,\ldots,u_n)$ et l'on calcule
+
+$$
+u\cdot v=u_1v_1+\cdots+u_nv_n.
+$$
+
+Les poids $u_i$ disent quelles composantes de $v$ nous intéressent. La **dualité** consiste à étudier toutes les manières continues de poser une question numérique linéaire à un objet. Pour les vecteurs, ces questions sont les produits scalaires avec un vecteur de poids $u$.
+
+Dans un espace de fonctions, on remplace la somme par une intégrale. Une **forme linéaire** sur $L^p$ est donc une règle qui reçoit une fonction $f$ et renvoie un nombre, tout en respectant les additions et les multiplications par un scalaire. Elle est **continue** si une petite perturbation de $f$ en norme $L^p$ ne peut produire qu'une petite perturbation du nombre obtenu.
+
+L'exemple fondamental est de choisir une fonction $u$ et de poser
+
+$$
+\ell_u(f)=\int_\Omega u(x)f(x)\,dx.
+$$
+
+La fonction $u$ joue le rôle d'un **test** : elle donne beaucoup de poids à certaines zones de $\Omega$ et peu de poids à d'autres. Si $u\in L^{p'}(\Omega)$, où $p'$ est l'exposant conjugué de $p$, Hölder garantit que cette intégrale est bien définie et que
+
+$$
+|\ell_u(f)|
+\leq
+\|u\|_{L^{p'}(\Omega)}\|f\|_{L^p(\Omega)}.
+$$
+
+Voici l'application de Hölder, étape par étape. Hölder dit que si $g\in L^a(\Omega)$ et $h\in L^b(\Omega)$, avec
+
+$$
+\frac1a+\frac1b=1,
+$$
+
+alors
+
+$$
+\int_\Omega|g(x)h(x)|\,dx
+\leq
+\|g\|_{L^a(\Omega)}\|h\|_{L^b(\Omega)}.
+$$
+
+Ici, on fait simplement les choix
+
+$$
+g=u,
+\qquad
+h=f,
+\qquad
+a=p',
+\qquad
+b=p.
+$$
+
+Ils conviennent car $p'$ est précisément l'exposant conjugué de $p$, donc $1/p'+1/p=1$. Hölder donne alors
+
+$$
+\int_\Omega|u(x)f(x)|\,dx
+\leq
+\|u\|_{L^{p'}(\Omega)}\|f\|_{L^p(\Omega)}.
+$$
+
+Enfin, l'intégrale $\int uf$ peut contenir des signes positifs et négatifs, mais sa valeur absolue ne dépasse jamais l'intégrale des valeurs absolues :
+
+$$
+|\ell_u(f)|
+=
+\left|\int_\Omega u(x)f(x)\,dx\right|
+\leq
+\int_\Omega|u(x)f(x)|\,dx.
+$$
+
+En combinant ces deux inégalités, on obtient la borne annoncée. Comme le membre de droite est fini, $uf\in L^1(\Omega)$ : l'intégrale qui définit $\ell_u(f)$ a donc bien un sens.
+
+Autrement dit, $u\in L^{p'}$ fabrique automatiquement une forme linéaire continue sur $L^p$.
+
+> [!example] Mesurer la masse dans une fenêtre
+> Supposons $f\in L^1(\mathbb R)$ et choisissons comme test $u=\mathbf 1_{[0,1]}$. Alors $u$ vaut $1$ sur $[0,1]$ et $0$ ailleurs, donc
+> $$
+> \ell_u(f)
+> =\int_{\mathbb R}\mathbf 1_{[0,1]}(x)f(x)\,dx
+> =\int_0^1f(x)\,dx.
+> $$
+> Cette forme linéaire répond à la question : « quel est le bilan de $f$ dans la fenêtre $[0,1]$ ? » Le test $u$ est borné, donc $u\in L^\infty$, ce qui est exactement le bon espace dual de $L^1$.
+
+Jusqu'ici, Hölder a montré un sens de l'histoire : en partant d'un poids $u\in L^{p'}$, on fabrique une forme linéaire continue
+
+$$
+f\longmapsto\int_\Omega u(x)f(x)\,dx.
+$$
+
+Le théorème de représentation de Riesz pour les espaces $L^p$ donne la réciproque : dans le cadre usuel des espaces de Lebesgue et pour $1\leq p<\infty$, si l'on nous donne **n'importe quelle** forme linéaire continue $\ell$ sur $L^p$, alors il existe une fonction $u\in L^{p'}$ telle que, pour toute fonction $f\in L^p$,
+
+$$
+\ell(f)=\int_\Omega u(x)f(x)\,dx.
+$$
+
+Autrement dit, toute question numérique qui est à la fois linéaire et stable vis-à-vis de la norme $L^p$ est nécessairement une question de la forme « intégrer $f$ contre un poids $u$ ». Ce poids est unique à modification sur un ensemble de mesure nulle près.
+
+On résume ce résultat par
+
+$$
+(L^p)'=L^{p'}.
+$$
+
+Le symbole $(L^p)'$ désigne le **dual** de $L^p$, c'est-à-dire l'ensemble des formes linéaires continues sur $L^p$. Cette égalité ne signifie donc pas que $L^p$ et $L^{p'}$ contiennent les mêmes fonctions. Elle signifie que chaque élément du dual, qui est au départ une règle $\ell$ agissant sur les fonctions $f$, correspond exactement à une fonction-poids $u\in L^{p'}$.
+
+> [!example] Ce que la réciproque apporte
+> Si une forme linéaire continue $\ell$ mesure une certaine information sur toute fonction $f\in L^1(\mathbb R)$, le théorème affirme qu'il existe une fonction bornée $u\in L^\infty(\mathbb R)$ telle que
+> $$
+> \ell(f)=\int_{\mathbb R}u(x)f(x)\,dx.
+> $$
+> Même si la règle $\ell$ nous a été donnée sous une forme abstraite, elle est donc toujours, au fond, une moyenne pondérée de $f$.
+
+> [!important] La continuité est essentielle
+> Une règle comme « prendre la valeur $f(0)$ » est linéaire, mais ce n'est pas une forme linéaire continue sur $L^p$. Dans $L^p$, deux fonctions qui diffèrent seulement en $0$ représentent le même élément, et l'on peut aussi concentrer une très grande hauteur près de $0$ tout en gardant une norme $L^p$ petite. Cette règle ne peut donc pas s'écrire sous la forme $\int uf$ avec $u\in L^{p'}$. Le théorème ne classe que les questions qui restent stables pour la norme considérée.
+
+> [!example] Deux cas à garder en tête
+> **Le cas $p=2$.** L'exposant conjugué de $2$ est encore $2$, car
+> $$
+> \frac12+\frac12=1.
+> $$
+> Une fonction $u\in L^2$ peut donc tester une autre fonction $f\in L^2$ par
+> $$
+> \ell_u(f)=\int_\Omega u(x)f(x)\,dx=\langle u,f\rangle_{L^2}.
+> $$
+> C'est exactement le produit scalaire de $L^2$. Le test mesure dans quelle mesure $f$ ressemble à la direction $u$ : s'ils sont grands aux mêmes endroits et de même signe, l'intégrale est grande et positive ; s'ils se compensent, elle est proche de $0$. La continuité est donnée par Cauchy-Schwarz :
+> $$
+> |\langle u,f\rangle_{L^2}|
+> \leq
+> \|u\|_{L^2}\|f\|_{L^2}.
+> $$
+> C'est pourquoi $L^2$ est particulièrement géométrique : son dual est le même espace, $(L^2)'=L^2$.
+>
+> **Le cas $p=1$.** Cette fois, l'exposant conjugué est $p'=\infty$. Pour tester une fonction intégrable $f$, il faut donc choisir un poids borné $u$. Si $|u(x)|\leq M$, alors
+> $$
+> \left|\int_\Omega u(x)f(x)\,dx\right|
+> \leq
+> \int_\Omega|u(x)||f(x)|\,dx
+> \leq
+> M\int_\Omega|f(x)|\,dx
+> =M\|f\|_{L^1}.
+> $$
+> Le poids $u$ peut sélectionner une zone, changer les signes ou donner plus d'importance à une partie du domaine, mais sa hauteur doit rester contrôlée. C'est le sens de $(L^1)'=L^\infty$.
+>
+> Pourquoi ne pas prendre un poids non borné ? Sur $(0,1)$, posons
+> $$
+> u(x)=x^{-1/2},
+> \qquad
+> f(x)=x^{-1/2}.
+> $$
+> La fonction $f$ est bien dans $L^1(0,1)$, car $\int_0^1x^{-1/2}\,dx=2$. Mais le produit vaut $u(x)f(x)=1/x$, et
+> $$
+> \int_0^1\frac1x\,dx=+\infty.
+> $$
+> Ce poids non borné ne permet donc même pas de définir $\int uf$ pour toutes les fonctions de $L^1$.
+
+> [!warning] Le cas $L^\infty$
+> L'identification simple $(L^p)'=L^{p'}$ ne se prolonge pas telle quelle à $p=\infty$ : le dual de $L^\infty$ peut contenir davantage d'objets que les seules fonctions de $L^1$. Dans ce poly, on utilisera surtout les cas $1\leq p<\infty$.
+
+#### Espaces locaux : contrôler la fonction dans chaque région bornée
+
+La notation $L^p_{\mathrm{loc}}(\Omega)$ signifie que $f$ appartient à $L^p$ sur toute partie compacte de $\Omega$. Concrètement, pour chaque région fermée et bornée $K$ contenue dans $\Omega$, on demande
+
+$$
+\int_K|f(x)|^p\,dx<\infty.
+$$
+
+On ne demande donc pas que la masse soit finie sur tout $\Omega$ à la fois : on demande seulement qu'elle soit finie dans chaque fenêtre bornée. Cette notion sépare les problèmes **locaux** — un pic ou une singularité près d'un point — du comportement **global** à l'infini.
 
 > [!example] Localement intégrable, mais pas intégrable globalement
-> La fonction constante $1$ est dans $L^1_{\mathrm{loc}}(\mathbb R)$, car son intégrale sur chaque intervalle borné est finie. Elle n'est pas dans $L^1(\mathbb R)$, car sa masse totale est infinie.
+> La fonction constante $1$ est dans $L^1_{\mathrm{loc}}(\mathbb R)$ : sur chaque intervalle borné $[-R,R]$, sa masse vaut $2R$. Elle n'est pas dans $L^1(\mathbb R)$, car quand on laisse $R$ tendre vers l'infini, cette masse devient infinie.
+
+> [!example] Une singularité locale reste interdite si elle est trop forte
+> La fonction $x\mapsto1/x$ appartient à $L^1_{\mathrm{loc}}((0,1))$ : les compacts de $(0,1)$ restent à distance positive de $0$, où la fonction est régulière. La singularité est ici située au bord, donc hors du domaine. En revanche, si le domaine contient $0$, par exemple $(-1,1)$, la fonction $x\mapsto1/|x|$ n'est pas dans $L^1_{\mathrm{loc}}((-1,1))$, car son intégrale est infinie dans toute fenêtre autour de $0$.
+
 
 ### 2.5. Convolution : moyenner et lisser
 
