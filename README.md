@@ -1,98 +1,98 @@
-# Notes de cours MVA
+# MVA Course Notes
 
-Ce dépôt rassemble des notes de cours au format [Obsidian](https://obsidian.md/). Il est pensé pour être lu et navigué dans Obsidian : les liens entre les notes, les encadrés et les formules y seront plus agréables que dans un navigateur web.
+This repository contains course notes in the [Obsidian](https://obsidian.md/) format. They are designed to be read and browsed in Obsidian: links between notes, callout boxes, and mathematical formulas are more comfortable there than in a web browser.
 
-Ce guide explique tout pas à pas. Il ne suppose aucune connaissance de Git, GitHub ou de la ligne de commande.
+This guide explains everything step by step. It assumes no prior knowledge of Git, GitHub, or the command line.
 
-## Ce dont vous avez besoin
+## What you need
 
-- un ordinateur sous Windows ou macOS ;
-- une connexion Internet ;
-- environ cinq minutes pour installer deux applications gratuites : GitHub Desktop et Obsidian.
+- a Windows or macOS computer;
+- an Internet connection;
+- about five minutes to install two free applications: GitHub Desktop and Obsidian.
 
-GitHub Desktop sert à récupérer une copie du dépôt sur l'ordinateur et à la mettre à jour plus tard. Obsidian sert à lire les notes.
+GitHub Desktop downloads a copy of the repository to your computer and lets you update it later. Obsidian is used to read the notes.
 
-> [!tip] Pas besoin de programmer
-> Les étapes ci-dessous ne demandent pas d'écrire de commandes dans un terminal. Suivez simplement les boutons indiqués.
+> [!tip] No programming required
+> The steps below do not require typing commands in a terminal. Just follow the buttons described below.
 
-## 1. Installer GitHub Desktop et cloner le dépôt
+## 1. Install GitHub Desktop and clone the repository
 
-### Sur Mac
+### On Mac
 
-1. Ouvrez la page officielle de [GitHub Desktop](https://desktop.github.com/download/).
-2. Téléchargez la version correspondant à votre Mac : **Apple silicon** pour la plupart des Mac récents, ou **Intel** pour les anciens modèles.
-3. Ouvrez le fichier téléchargé, puis faites glisser l'icône GitHub Desktop vers le dossier **Applications** si macOS le propose.
-4. Lancez GitHub Desktop depuis Applications. Connectez-vous à GitHub si l'application vous le demande ; créer un compte gratuit est possible si vous n'en avez pas.
+1. Open the official [GitHub Desktop download page](https://desktop.github.com/download/).
+2. Download the version for your Mac: **Apple silicon** for most recent Macs, or **Intel** for older models.
+3. Open the downloaded file, then drag the GitHub Desktop icon to the **Applications** folder if macOS asks you to do so.
+4. Launch GitHub Desktop from Applications. Sign in to GitHub if the application asks; you can create a free account if you do not have one.
 
-### Sur Windows
+### On Windows
 
-1. Ouvrez la page officielle de [GitHub Desktop](https://desktop.github.com/download/).
-2. Cliquez sur **Download for Windows**.
-3. Ouvrez le fichier téléchargé et suivez les étapes de l'installation.
-4. Lancez GitHub Desktop depuis le menu Démarrer. Connectez-vous à GitHub si l'application vous le demande ; créer un compte gratuit est possible si vous n'en avez pas.
+1. Open the official [GitHub Desktop download page](https://desktop.github.com/download/).
+2. Click **Download for Windows**.
+3. Open the downloaded file and follow the installation steps.
+4. Launch GitHub Desktop from the Start menu. Sign in to GitHub if the application asks; you can create a free account if you do not have one.
 
-### Télécharger une copie du dépôt
+### Download a copy of the repository
 
-Les étapes suivantes sont les mêmes sur Mac et Windows.
+The following steps are the same on Mac and Windows.
 
-1. Dans GitHub Desktop, ouvrez le menu **File**, puis cliquez sur **Clone repository...**.
-2. Choisissez l'onglet **URL**.
-3. Copiez-collez cette adresse dans le champ **Repository URL** :
+1. In GitHub Desktop, open the **File** menu and click **Clone repository...**.
+2. Select the **URL** tab.
+3. Copy and paste this address into the **Repository URL** field:
 
 ```text
 https://github.com/comarquet/mva.git
 ```
 
-4. Dans **Local path**, choisissez un emplacement facile à retrouver, par exemple le dossier `Documents`.
-5. Cliquez sur **Clone**.
+4. In **Local path**, choose a location that is easy to find again, such as your `Documents` folder.
+5. Click **Clone**.
 
-GitHub Desktop crée alors un dossier appelé `mva`. C'est votre copie locale du dépôt : ne déplacez pas les fichiers un par un ; déplacez le dossier `mva` entier si vous devez le ranger ailleurs.
+GitHub Desktop will create a folder called `mva`. This is your local copy of the repository: do not move its files one by one. If you need to store it elsewhere, move the entire `mva` folder.
 
-> [!info] Mettre les notes à jour plus tard
-> Ouvrez GitHub Desktop, sélectionnez ce dépôt, puis cliquez sur **Fetch origin**. Si le bouton devient **Pull origin**, cliquez aussi dessus : les nouvelles notes seront alors téléchargées sur votre ordinateur.
+> [!info] Update the notes later
+> Open GitHub Desktop, select this repository, then click **Fetch origin**. If the button changes to **Pull origin**, click it as well: new notes will then be downloaded to your computer.
 
-## 2. Installer Obsidian
+## 2. Install Obsidian
 
-### Sur Mac
+### On Mac
 
-1. Ouvrez la page officielle de [téléchargement d'Obsidian](https://obsidian.md/download).
-2. Dans la section **Mac**, téléchargez la version **Universal**.
-3. Ouvrez le fichier téléchargé et placez Obsidian dans le dossier **Applications** si macOS le propose.
-4. Lancez Obsidian depuis Applications.
+1. Open the official [Obsidian download page](https://obsidian.md/download).
+2. In the **Mac** section, download the **Universal** version.
+3. Open the downloaded file and place Obsidian in the **Applications** folder if macOS asks you to do so.
+4. Launch Obsidian from Applications.
 
-### Sur Windows
+### On Windows
 
-1. Ouvrez la page officielle de [téléchargement d'Obsidian](https://obsidian.md/download).
-2. Dans la section **Windows**, téléchargez la version **Universal**.
-3. Ouvrez le fichier téléchargé et suivez les étapes de l'installation.
-4. Lancez Obsidian depuis le menu Démarrer.
+1. Open the official [Obsidian download page](https://obsidian.md/download).
+2. In the **Windows** section, download the **Universal** version.
+3. Open the downloaded file and follow the installation steps.
+4. Launch Obsidian from the Start menu.
 
-> [!tip] Obsidian est gratuit pour cet usage
-> Vous pouvez utiliser l'application sans créer de compte et sans activer les offres payantes. Un compte n'est utile que pour certains services optionnels, comme la synchronisation proposée par Obsidian.
+> [!tip] Obsidian is free for this use
+> You can use the application without creating an account or enabling paid plans. An account is only useful for optional services, such as Obsidian's own sync service.
 
-## 3. Ouvrir les notes dans Obsidian
+## 3. Open the notes in Obsidian
 
-1. Au premier démarrage, choisissez **Open folder as vault**. Si Obsidian est déjà ouvert, cliquez sur l'icône de coffre-fort en bas à gauche, puis sur **Open another vault** et **Open folder as vault**.
-2. Sélectionnez le dossier `mva` créé par GitHub Desktop. Si vous l'avez cloné dans Documents, ce sera normalement `Documents/mva`.
-3. Cliquez sur **Open**.
+1. At first launch, select **Open folder as vault**. If Obsidian is already open, click the vault icon in the bottom-left corner, then select **Open another vault** and **Open folder as vault**.
+2. Select the `mva` folder created by GitHub Desktop. If you cloned it into Documents, it will usually be `Documents/mva`.
+3. Click **Open**.
 
-Les notes apparaissent dans la colonne de gauche. Commencez par le dossier `prerentree`, puis choisissez une matière et son dossier `notes`.
+The notes will appear in the left sidebar. Start with the `prerentree` folder, then select a subject and its `notes` folder.
 
-> [!warning] Choisir le bon dossier
-> Sélectionnez le dossier entier `mva`, pas seulement un fichier Markdown et pas le dossier caché `.obsidian`. Le dossier `.obsidian` contient les réglages ; il ne faut pas l'ouvrir seul ni le supprimer.
+> [!warning] Choose the right folder
+> Select the entire `mva` folder, not an individual Markdown file and not the hidden `.obsidian` folder. The `.obsidian` folder stores settings; do not open it on its own or delete it.
 
-## Utiliser les notes
+## Using the notes
 
-- Cliquez sur un lien bleu ou violet pour ouvrir une autre note.
-- Utilisez la recherche, en haut à gauche, pour retrouver un mot ou une notion.
-- Les fichiers qui se terminent par `.md` sont les notes. Ils restent de simples fichiers texte : vous pouvez les lire et les modifier dans Obsidian.
-- Si vous modifiez des notes et souhaitez conserver vos changements sur GitHub, demandez de l'aide à une personne habituée à GitHub Desktop avant de cliquer sur **Push origin**. Cela évite d'écraser par erreur le travail d'autres personnes.
+- Click a blue or purple link to open another note.
+- Use the search field in the top-left corner to find a word or concept.
+- Files ending in `.md` are notes. They are plain text files, so you can read and edit them in Obsidian.
+- If you edit notes and want to keep your changes on GitHub, ask someone familiar with GitHub Desktop for help before clicking **Push origin**. This helps avoid accidentally overwriting other people's work.
 
-## Traduire les cours avec un coding agent
+## Translating the courses with a coding agent
 
-Les notes sont principalement en français, mais elles peuvent être traduites facilement avec un **coding agent** : il peut parcourir les fichiers Markdown, traduire le texte et conserver la structure des titres, les liens Obsidian et les formules mathématiques.
+The notes are mainly written in French, but they can be translated easily with a **coding agent**. An agent can read the Markdown files, translate the text, and preserve the heading structure, Obsidian links, and mathematical formulas.
 
-Si vous réalisez ou souhaitez réaliser une traduction, contactez Corentin à **cormarquet@gmail.com**. Il pourra alors ajouter ou coordonner l'ajout des cours en anglais dans le dépôt.
+If you have created or would like to create a translation, contact Corentin at **cormarquet@gmail.com**. He can then add, or coordinate the addition of, English course notes to the repository.
 
-> [!tip] Bon réflexe pour une traduction
-> Demandez explicitement à l'agent de préserver les liens `[[...]]`, les blocs de code, les formules et la structure des fichiers. Ainsi, la version traduite restera navigable dans Obsidian.
+> [!tip] A good prompt for a translation
+> Explicitly ask the agent to preserve `[[...]]` links, code blocks, mathematical formulas, and the structure of every file. The translated version will then remain easy to browse in Obsidian.
