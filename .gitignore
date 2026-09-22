@@ -6,3 +6,6 @@
 .idea/
 *.swp
 *~
+
+# Local agent scratchpad
+prerentree/reponse-agent.md
