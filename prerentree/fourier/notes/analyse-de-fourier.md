@@ -18,6 +18,12 @@ On peut la voir comme un changement de repère : de même qu'un vecteur se déco
 > [!example] Image mentale
 > Un son est une variation de pression dans le temps. Sa transformée de Fourier indique les notes graves et aiguës présentes, ainsi que leur amplitude. Pour une image, les basses fréquences décrivent les grandes zones lisses et les hautes fréquences les détails et les contours.
 
+## Ressources d'aide
+
+- [Guide interactif de la transformée de Fourier — BetterExplained](https://betterexplained.com/articles/an-interactive-guide-to-the-fourier-transform/?utm_source=chatgpt.com)
+- [Vidéo : les séries de Fourier, une introduction visuelle](https://www.youtube.com/watch?v=r6sGWTCMz2k)
+- [Vidéo : la transformée de Fourier, une introduction visuelle](https://www.youtube.com/watch?v=spUNpyF58BY)
+
 ## 1. Les trois versions de Fourier
 
 - **Transformée de Fourier** : signal défini sur toute la droite réelle, par exemple un son continu de durée théorique infinie.
