@@ -1,67 +1,50 @@
 {
   "main": {
-    "id": "acc6c49b5b9e7751",
+    "id": "e753019f70f4dcb5",
     "type": "split",
     "children": [
       {
-        "id": "427b8288ef273f95",
+        "id": "1e3a2799fba50395",
         "type": "tabs",
-        "dimension": 63.3248730964467,
+        "dimension": 65.08528784648188,
         "children": [
           {
-            "id": "94828d18f1f7374d",
-            "type": "leaf",
-            "pinned": true,
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "stats/notes/cours-principal.md",
-                "mode": "source",
-                "source": false
-              },
-              "pinned": true,
-              "icon": "lucide-file",
-              "title": "cours-principal"
-            }
-          },
-          {
-            "id": "7d45da45fb9b1a52",
+            "id": "e499787729cce311",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "fourier/notes/analyse-de-fourier.md",
+                "file": "notes/1-ensembles-convexes.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "analyse-de-fourier"
+              "title": "1-ensembles-convexes"
             },
-            "group": "c725f3e9c948014d"
+            "group": "8e22e5b455b58223"
           }
-        ],
-        "currentTab": 1
+        ]
       },
       {
-        "id": "96525b3ee9c71da8",
+        "id": "0580ca9786c1faae",
         "type": "tabs",
-        "dimension": 36.6751269035533,
+        "dimension": 34.914712153518124,
         "children": [
           {
-            "id": "e9affe385328389a",
+            "id": "4bc15417960527ab",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "fourier/notes/analyse-de-fourier.md",
+                "file": "notes/1-ensembles-convexes.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Plan de analyse-de-fourier"
+              "title": "Plan de 1-ensembles-convexes"
             },
-            "group": "c725f3e9c948014d"
+            "group": "8e22e5b455b58223"
           }
         ]
       }
@@ -69,15 +52,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "5538964b51234845",
+    "id": "c712049ee23f61d7",
     "type": "split",
     "children": [
       {
-        "id": "8c7d37f7e76ed4e7",
+        "id": "7ec912e6e07ad54b",
         "type": "tabs",
         "children": [
           {
-            "id": "013f5404232b15ca",
+            "id": "4b9257bd48b9b352",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -92,7 +75,7 @@
             }
           },
           {
-            "id": "c5ba1ad662218b48",
+            "id": "ce97e48f5ddaf057",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -105,17 +88,20 @@
                 "sortOrder": "alphabetical"
               },
               "icon": "lucide-search",
-              "title": "Search"
+              "title": "Rechercher"
             }
           },
           {
-            "id": "437cf790593dfe1d",
+            "id": "71cbe8b462457a94",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {},
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
               "icon": "lucide-bookmark",
-              "title": "Bookmarks"
+              "title": "Signets"
             }
           }
         ]
@@ -125,22 +111,22 @@
     "width": 300
   },
   "right": {
-    "id": "dea19b75bbb42d25",
+    "id": "327d63dbf4dce44d",
     "type": "split",
     "children": [
       {
-        "id": "9b494d31dfd32903",
+        "id": "271233433ac952c4",
         "type": "tabs",
         "children": [
           {
-            "id": "7e85c177bda60cd4",
+            "id": "36326f60f25b8678",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "stats/notes/exercices-corriges.md",
-                "collapseAll": true,
-                "extraContext": true,
+                "file": "notes/poly-ensembles-et-fonctions-convexes.md",
+                "collapseAll": false,
+                "extraContext": false,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
                 "searchQuery": "",
@@ -148,25 +134,25 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Rétroliens"
             }
           },
           {
-            "id": "20e35bc77dc08c72",
+            "id": "934fb85dba3a411b",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "optimisation-convexe/notes/cours-principal.md",
+                "file": "notes/poly-ensembles-et-fonctions-convexes.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from cours-principal"
+              "title": "Liens sortants"
             }
           },
           {
-            "id": "77c4db44c7a1ae34",
+            "id": "193a036c2c258fd7",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -177,11 +163,11 @@
                 "searchQuery": ""
               },
               "icon": "lucide-tags",
-              "title": "Tags"
+              "title": "Mots-clés"
             }
           },
           {
-            "id": "c499c17b07c61563",
+            "id": "4593773a5eba372a",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -191,22 +177,22 @@
                 "searchQuery": ""
               },
               "icon": "lucide-archive",
-              "title": "All properties"
+              "title": "Toutes les propriétés"
             }
           },
           {
-            "id": "12dff658dfec0aed",
+            "id": "917cc8f7eed36f2b",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "optimisation-convexe/notes/cours-principal.md",
+                "file": "notes/poly-ensembles-et-fonctions-convexes.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of cours-principal"
+              "title": "Plan"
             }
           }
         ]
@@ -218,6 +204,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "fix-math:Current file": false,
       "switcher:Ouvrir le sélecteur rapide": false,
       "graph:Ouvrir la vue graphique": false,
       "canvas:Créer une nouvelle toile": false,
@@ -227,36 +214,10 @@
       "bases:Créer une nouvelle base": false
     }
   },
-  "active": "7d45da45fb9b1a52",
+  "active": "4b9257bd48b9b352",
   "lastOpenFiles": [
-    "tmp/pdfs/computational-ot-5.png",
-    "tmp/pdfs/computational-ot-4.png",
-    "tmp/pdfs/computational-ot-3.png",
-    "tmp/pdfs/computational-ot-2.png",
-    "tmp/pdfs/computational-ot-1.png",
-    "tmp/pdfs",
-    "tmp",
-    "stats/notes/cours-principal.md",
-    "stats/notes/exercices-corriges.md",
-    "fourier/notes/analyse-de-fourier.md",
-    "fourier/notes",
-    "fourier/sources/cours-fourier.pdf",
-    "fourier/sources/Analyse Fourier - mnmva_fourier_sol(1).pdf",
-    "fourier/sources",
-    "fourier",
-    "pdf/analyse-fonctionnelle-poly.pdf",
-    "pdf/probabilites-td-corrige.pdf",
-    "pdf/probabilites-cours.pdf",
-    "reponse-agent.md",
-    "analyse-fonctionnelle/notes/poly-analyse-fonctionnelle.md",
-    "analyse-fonctionnelle/notes/fiches-aide/00-socle-analyse-fonctionnelle.md",
-    "analyse-fonctionnelle/notes/fiches-aide/04-densite.md",
-    "analyse-fonctionnelle/notes/fiches-aide/03-completude.md",
-    "analyse-fonctionnelle/notes/fiches-aide/02-normes-et-convergence.md",
-    "analyse-fonctionnelle/notes/fiches-aide/01-presque-partout.md",
-    "optimisation-convexe/notes/cours-principal.md",
-    "analyse-fonctionnelle/sources/Pasted image.png",
-    "optimisation-convexe/notes/exercices-corriges.md",
-    "optimisation-convexe/notes/fiches-aides/compacite.md"
+    "notes/poly-ensembles-et-fonctions-convexes.md",
+    "notes/1-ensembles-convexes.md",
+    "notes/2-fonctions-convexes.md"
   ]
 }

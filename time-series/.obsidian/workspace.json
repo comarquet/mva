@@ -1,67 +1,66 @@
 {
   "main": {
-    "id": "acc6c49b5b9e7751",
+    "id": "7d3aaf8523003ea6",
     "type": "split",
     "children": [
       {
-        "id": "427b8288ef273f95",
+        "id": "5d5e4b65fe7c8069",
         "type": "tabs",
-        "dimension": 63.3248730964467,
+        "dimension": 60.0253807106599,
         "children": [
           {
-            "id": "94828d18f1f7374d",
+            "id": "adc63545923637e0",
             "type": "leaf",
             "pinned": true,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "stats/notes/cours-principal.md",
+                "file": "cours/cours-1-pattern-recognition-detection.md",
                 "mode": "source",
                 "source": false
               },
               "pinned": true,
               "icon": "lucide-file",
-              "title": "cours-principal"
-            }
+              "title": "cours-1-pattern-recognition-detection"
+            },
+            "group": "d2f0b5eef9bb5e55"
           },
           {
-            "id": "7d45da45fb9b1a52",
+            "id": "09e1a257b44d53ec",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "fourier/notes/analyse-de-fourier.md",
-                "mode": "source",
-                "source": false
+                "file": "sources/cours-1-pattern-recognition-detection.pdf"
               },
-              "icon": "lucide-file",
-              "title": "analyse-de-fourier"
-            },
-            "group": "c725f3e9c948014d"
+              "icon": "lucide-file-text",
+              "title": "cours-1-pattern-recognition-detection"
+            }
           }
-        ],
-        "currentTab": 1
+        ]
       },
       {
-        "id": "96525b3ee9c71da8",
+        "id": "37ce6b67a468a569",
         "type": "tabs",
-        "dimension": 36.6751269035533,
+        "dimension": 39.974619289340104,
         "children": [
           {
-            "id": "e9affe385328389a",
+            "id": "ffce9cee48ec8755",
             "type": "leaf",
+            "pinned": true,
             "state": {
               "type": "outline",
               "state": {
-                "file": "fourier/notes/analyse-de-fourier.md",
+                "file": "cours/cours-1-pattern-recognition-detection.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
+              "pinned": true,
               "icon": "lucide-list",
-              "title": "Plan de analyse-de-fourier"
+              "title": "Plan de cours-1-pattern-recognition-detection"
             },
-            "group": "c725f3e9c948014d"
+            "group": "d2f0b5eef9bb5e55"
           }
         ]
       }
@@ -69,15 +68,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "5538964b51234845",
+    "id": "06772ce22ee3faf7",
     "type": "split",
     "children": [
       {
-        "id": "8c7d37f7e76ed4e7",
+        "id": "4f2993070512902b",
         "type": "tabs",
         "children": [
           {
-            "id": "013f5404232b15ca",
+            "id": "5b0e463cc7e26dd7",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -92,7 +91,7 @@
             }
           },
           {
-            "id": "c5ba1ad662218b48",
+            "id": "1b138b2aaa07b37e",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -105,17 +104,20 @@
                 "sortOrder": "alphabetical"
               },
               "icon": "lucide-search",
-              "title": "Search"
+              "title": "Rechercher"
             }
           },
           {
-            "id": "437cf790593dfe1d",
+            "id": "db48856cab9cc06d",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {},
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
               "icon": "lucide-bookmark",
-              "title": "Bookmarks"
+              "title": "Signets"
             }
           }
         ]
@@ -125,22 +127,22 @@
     "width": 300
   },
   "right": {
-    "id": "dea19b75bbb42d25",
+    "id": "89a3aca4acf49844",
     "type": "split",
     "children": [
       {
-        "id": "9b494d31dfd32903",
+        "id": "56284e6536807bf6",
         "type": "tabs",
         "children": [
           {
-            "id": "7e85c177bda60cd4",
+            "id": "b7aeeb408e904154",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "stats/notes/exercices-corriges.md",
-                "collapseAll": true,
-                "extraContext": true,
+                "file": "cours/cours-1-pattern-recognition-detection.md",
+                "collapseAll": false,
+                "extraContext": false,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
                 "searchQuery": "",
@@ -148,25 +150,25 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Rétroliens"
             }
           },
           {
-            "id": "20e35bc77dc08c72",
+            "id": "c1a169ce83935f62",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "optimisation-convexe/notes/cours-principal.md",
+                "file": "cours/cours-1-pattern-recognition-detection.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from cours-principal"
+              "title": "Liens sortants"
             }
           },
           {
-            "id": "77c4db44c7a1ae34",
+            "id": "f0642eea34fb8505",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -177,11 +179,11 @@
                 "searchQuery": ""
               },
               "icon": "lucide-tags",
-              "title": "Tags"
+              "title": "Mots-clés"
             }
           },
           {
-            "id": "c499c17b07c61563",
+            "id": "accfc8406845b5fb",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -191,22 +193,22 @@
                 "searchQuery": ""
               },
               "icon": "lucide-archive",
-              "title": "All properties"
+              "title": "Toutes les propriétés"
             }
           },
           {
-            "id": "12dff658dfec0aed",
+            "id": "cbf49204f5f32239",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "optimisation-convexe/notes/cours-principal.md",
+                "file": "cours/cours-1-pattern-recognition-detection.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of cours-principal"
+              "title": "Plan"
             }
           }
         ]
@@ -227,36 +229,11 @@
       "bases:Créer une nouvelle base": false
     }
   },
-  "active": "7d45da45fb9b1a52",
+  "active": "adc63545923637e0",
   "lastOpenFiles": [
-    "tmp/pdfs/computational-ot-5.png",
-    "tmp/pdfs/computational-ot-4.png",
-    "tmp/pdfs/computational-ot-3.png",
-    "tmp/pdfs/computational-ot-2.png",
-    "tmp/pdfs/computational-ot-1.png",
-    "tmp/pdfs",
-    "tmp",
-    "stats/notes/cours-principal.md",
-    "stats/notes/exercices-corriges.md",
-    "fourier/notes/analyse-de-fourier.md",
-    "fourier/notes",
-    "fourier/sources/cours-fourier.pdf",
-    "fourier/sources/Analyse Fourier - mnmva_fourier_sol(1).pdf",
-    "fourier/sources",
-    "fourier",
-    "pdf/analyse-fonctionnelle-poly.pdf",
-    "pdf/probabilites-td-corrige.pdf",
-    "pdf/probabilites-cours.pdf",
-    "reponse-agent.md",
-    "analyse-fonctionnelle/notes/poly-analyse-fonctionnelle.md",
-    "analyse-fonctionnelle/notes/fiches-aide/00-socle-analyse-fonctionnelle.md",
-    "analyse-fonctionnelle/notes/fiches-aide/04-densite.md",
-    "analyse-fonctionnelle/notes/fiches-aide/03-completude.md",
-    "analyse-fonctionnelle/notes/fiches-aide/02-normes-et-convergence.md",
-    "analyse-fonctionnelle/notes/fiches-aide/01-presque-partout.md",
-    "optimisation-convexe/notes/cours-principal.md",
-    "analyse-fonctionnelle/sources/Pasted image.png",
-    "optimisation-convexe/notes/exercices-corriges.md",
-    "optimisation-convexe/notes/fiches-aides/compacite.md"
+    "sources/cours-1-pattern-recognition-detection.pdf",
+    "cours/cours-1-pattern-recognition-detection.md",
+    "cours",
+    "sources"
   ]
 }
